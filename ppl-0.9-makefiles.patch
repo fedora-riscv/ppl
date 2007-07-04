@@ -1,0 +1,48 @@
+diff -ur ppl-0.9/interfaces/Prolog/GNU/Makefile.in ppl-0.9-patched/interfaces/Prolog/GNU/Makefile.in
+--- ppl-0.9/interfaces/Prolog/GNU/Makefile.in	2006-03-12 09:11:43.000000000 +0100
++++ ppl-0.9-patched/interfaces/Prolog/GNU/Makefile.in	2007-06-07 21:58:12.000000000 +0200
+@@ -700,7 +700,7 @@
+ @BUILD_GNU_PROLOG_INTERFACE_TRUE@ppl_gprolog$(EXEEXT): libppl_gprolog.la ppl_gprolog.pl
+ @BUILD_GNU_PROLOG_INTERFACE_TRUE@	gplc --c-compiler $(CXX) -o $@ \
+ @BUILD_GNU_PROLOG_INTERFACE_TRUE@		$(srcdir)/ppl_gprolog.pl $(LIBPPL_GPROLOG) \
+-@BUILD_GNU_PROLOG_INTERFACE_TRUE@		-L '$(AM_CXXFLAGS) $(CXXFLAGS) -L$(top_builddir)/src/.libs -lppl -L$(top_builddir)/Watchdog/src/.libs -lpwl -lgmpxx -lgmp'
++@BUILD_GNU_PROLOG_INTERFACE_TRUE@		-L '$(AM_CXXFLAGS) $(CXXFLAGS) -Wl,-rpath -Wl,$(pkglibdir) -L$(top_builddir)/src/.libs -lppl -L$(top_builddir)/Watchdog/src/.libs -lpwl -lgmpxx -lgmp'
+ 
+ @BUILD_GNU_PROLOG_INTERFACE_TRUE@gp_clpq: libppl_gprolog.la ppl_gprolog.pl gp_clpq.pl ../tests/clpq.pl
+ @BUILD_GNU_PROLOG_INTERFACE_TRUE@	gplc --c-compiler $(CXX) -o $@ \
+diff -ur ppl-0.9/interfaces/C/Makefile.in ppl-0.9-patched/interfaces/C/Makefile.in
+--- ppl-0.9/interfaces/C/Makefile.in	2006-03-12 09:11:41.000000000 +0100
++++ ppl-0.9-patched/interfaces/C/Makefile.in	2007-06-08 19:25:19.000000000 +0200
+@@ -90,7 +90,8 @@
+ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)"
+ libLTLIBRARIES_INSTALL = $(INSTALL)
+ LTLIBRARIES = $(lib_LTLIBRARIES)
+-libppl_c_la_LIBADD =
++@BUILD_C_INTERFACE_TRUE@libppl_c_la_DEPENDENCIES =  \
++@BUILD_C_INTERFACE_TRUE@       $(top_builddir)/src/libppl.la
+ am__libppl_c_la_SOURCES_DIST = ppl_c.cc
+ @BUILD_C_INTERFACE_TRUE@am_libppl_c_la_OBJECTS = ppl_c.lo
+ libppl_c_la_OBJECTS = $(am_libppl_c_la_OBJECTS)
+@@ -342,6 +343,10 @@
+ 
+ @BUILD_C_INTERFACE_TRUE@lib_LTLIBRARIES = libppl_c.la
+ @BUILD_C_INTERFACE_TRUE@libppl_c_la_SOURCES = ppl_c.cc
++@BUILD_C_INTERFACE_TRUE@libppl_c_la_LIBADD = \
++@BUILD_C_INTERFACE_TRUE@$(top_builddir)/src/libppl.la \
++@BUILD_C_INTERFACE_TRUE@@extra_libraries@
++
+ @BUILD_C_INTERFACE_TRUE@libppl_c_la_LDFLAGS = \
+ @BUILD_C_INTERFACE_TRUE@-version-info $(LIBPPL_C_LT_CURRENT):$(LIBPPL_C_LT_REVISION):$(LIBPPL_C_LT_AGE)
+ 
+diff -ur ppl-0.9/src/Makefile.in ppl-0.9-patched/src/Makefile.in
+--- ppl-0.9/src/Makefile.in	2006-03-12 09:11:46.000000000 +0100
++++ ppl-0.9-patched/src/Makefile.in	2007-06-08 19:21:17.000000000 +0200
+@@ -708,7 +708,7 @@
+ swapping_sort.icc
+ 
+ @NO_UNDEFINED_TRUE@NO_UNDEFINED_FLAG = -no-undefined
+-@NO_UNDEFINED_TRUE@libppl_la_LIBADD = @extra_libraries@
++libppl_la_LIBADD = @extra_libraries@
+ libppl_la_LDFLAGS = \
+ $(NO_UNDEFINED_FLAG) \
+ -version-info $(LIBPPL_LT_CURRENT):$(LIBPPL_LT_REVISION):$(LIBPPL_LT_AGE)
