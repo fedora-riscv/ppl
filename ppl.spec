@@ -1,6 +1,6 @@
 Name:		ppl
 Version:	0.9
-Release:	13%{?dist}
+Release:	14%{?dist}
 
 Summary:	The Parma Polyhedra Library: a library of numerical abstractions
 Group:		Development/Libraries
@@ -277,6 +277,9 @@ rm -f %{buildroot}%{_libdir}/*.la %{buildroot}%{_libdir}/%{name}/*.la
 rm -rf %{buildroot}
 
 %changelog
+* Tue Aug 28 2007 Fedora Release Engineering <rel-eng at fedoraproject dot org> - 0.9-14
+- Rebuild for selinux ppc32 issue.
+
 * Fri Jul 06 2007 Roberto Bagnara <bagnara@cs.unipr.it> 0.9-13
 - Bug 246815 had been fixed: YAP support enabled again.
 
