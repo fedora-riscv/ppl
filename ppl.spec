@@ -1,6 +1,6 @@
 Name:		ppl
 Version:	0.9
-Release:	14%{?dist}
+Release:	15%{?dist}
 
 Summary:	The Parma Polyhedra Library: a library of numerical abstractions
 Group:		Development/Libraries
@@ -277,6 +277,9 @@ rm -f %{buildroot}%{_libdir}/*.la %{buildroot}%{_libdir}/%{name}/*.la
 rm -rf %{buildroot}
 
 %changelog
+* Mon Sep 24 2007 Jesse Keating <jkeating@redhat.com> - 0.9-15
+- Rebuild for new libgmpxx
+
 * Tue Aug 28 2007 Fedora Release Engineering <rel-eng at fedoraproject dot org> - 0.9-14
 - Rebuild for selinux ppc32 issue.
 
