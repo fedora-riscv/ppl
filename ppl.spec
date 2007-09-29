@@ -1,10 +1,10 @@
 Name:		ppl
 Version:	0.9
-Release:	15%{?dist}
+Release:	16%{?dist}
 
 Summary:	The Parma Polyhedra Library: a library of numerical abstractions
 Group:		Development/Libraries
-License:	GPL
+License:	GPLv2+
 URL:		http://www.cs.unipr.it/ppl/
 Source:		ftp://ftp.cs.unipr.it/pub/ppl/releases/%{version}/%{name}-%{version}.tar.gz
 Patch0:		ppl-0.9-docfiles.patch
@@ -81,7 +81,7 @@ of the Parma Polyhedra Library.
 Summary:	The SWI-Prolog interface of the Parma Polyhedra Library
 Group:		Development/Libraries
 BuildRequires:	pl >= 5.6.0
-Requires:	ppl = %{version}-%{release}, ppl-pwl = %{version}-%{release}, pl >= 5.6.0, readline-devel
+Requires:	ppl = %{version}-%{release}, ppl-pwl = %{version}-%{release}, pl >= 5.6.0
 %description swiprolog
 This package adds SWI-Prolog support to the Parma Polyhedra Library.
 Install this package if you want to use the library in SWI Prolog programs.
@@ -277,10 +277,14 @@ rm -f %{buildroot}%{_libdir}/*.la %{buildroot}%{_libdir}/%{name}/*.la
 rm -rf %{buildroot}
 
 %changelog
-* Mon Sep 24 2007 Jesse Keating <jkeating@redhat.com> - 0.9-15
-- Rebuild for new libgmpxx
+* Sat Sep 29 2007 Roberto Bagnara <bagnara@cs.unipr.it> 0.9-16
+- The value of the `License' tag is now `GPLv2+'.
+- `ppl-swiprolog' dependency on `readline-devel' removed (again).
 
-* Tue Aug 28 2007 Fedora Release Engineering <rel-eng at fedoraproject dot org> - 0.9-14
+* Mon Sep 24 2007 Jesse Keating <jkeating@redhat.com> 0.9-15
+- Rebuild for new libgmpxx.
+
+* Tue Aug 28 2007 Fedora Release Engineering <rel-eng at fedoraproject dot org> 0.9-14
 - Rebuild for selinux ppc32 issue.
 
 * Fri Jul 06 2007 Roberto Bagnara <bagnara@cs.unipr.it> 0.9-13
