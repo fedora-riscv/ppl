@@ -1,6 +1,6 @@
 Name:		ppl
 Version:	0.9
-Release:	16%{?dist}
+Release:	17%{?dist}
 
 Summary:	The Parma Polyhedra Library: a library of numerical abstractions
 Group:		Development/Libraries
@@ -77,6 +77,7 @@ This package contains the static archive for the GNU Prolog interface
 of the Parma Polyhedra Library.
 %endif
 
+%ifnarch ppc64
 %package swiprolog
 Summary:	The SWI-Prolog interface of the Parma Polyhedra Library
 Group:		Development/Libraries
@@ -85,7 +86,9 @@ Requires:	ppl = %{version}-%{release}, ppl-pwl = %{version}-%{release}, pl >= 5.
 %description swiprolog
 This package adds SWI-Prolog support to the Parma Polyhedra Library.
 Install this package if you want to use the library in SWI Prolog programs.
+%endif
 
+%ifnarch ppc64
 %package swiprolog-static
 Summary:	The static archive for the SWI-Prolog interface of the Parma Polyhedra Library
 Group:		Development/Libraries
@@ -94,6 +97,7 @@ Requires:	ppl-swiprolog = %{version}-%{release}
 %description swiprolog-static
 This package contains the static archive for the SWI-Prolog interface
 of the Parma Polyhedra Library.
+%endif
 
 %package yap
 Summary:	The YAP Prolog interface of the Parma Polyhedra Library
@@ -224,16 +228,20 @@ rm -f %{buildroot}%{_libdir}/*.la %{buildroot}%{_libdir}/%{name}/*.la
 %{_libdir}/%{name}/libppl_gprolog.a
 %endif
 
+%ifnarch ppc64
 %files swiprolog
 %defattr(-,root,root,-)
 %doc interfaces/Prolog/SWI/README.swiprolog
 %{_bindir}/ppl_pl
 %{_libdir}/%{name}/libppl_swiprolog.so
 %{_libdir}/%{name}/ppl_swiprolog.pl
+%endif
 
+%ifnarch ppc64
 %files swiprolog-static
 %defattr(-,root,root,-)
 %{_libdir}/%{name}/libppl_swiprolog.a
+%endif
 
 %files yap
 %defattr(-,root,root,-)
@@ -277,6 +285,11 @@ rm -f %{buildroot}%{_libdir}/*.la %{buildroot}%{_libdir}/%{name}/*.la
 rm -rf %{buildroot}
 
 %changelog
+* Sun Dec 23 2007 Roberto Bagnara <bagnara@cs.unipr.it> 0.9-17
+- The SWI-Prolog `pl' package is temporarily not available on the ppc64
+  architecture: temporarily disabled `ppl-swiprolog' and
+  `ppl-swiprolog-static' on that architecture.
+
 * Sat Sep 29 2007 Roberto Bagnara <bagnara@cs.unipr.it> 0.9-16
 - The value of the `License' tag is now `GPLv2+'.
 - `ppl-swiprolog' dependency on `readline-devel' removed (again).
