@@ -1,12 +1,15 @@
 Name:		ppl
 Version:	0.9
-Release:	17%{?dist}
+Release:	18%{?dist}
 
 Summary:	The Parma Polyhedra Library: a library of numerical abstractions
 Group:		Development/Libraries
 License:	GPLv2+
 URL:		http://www.cs.unipr.it/ppl/
-Source:		ftp://ftp.cs.unipr.it/pub/ppl/releases/%{version}/%{name}-%{version}.tar.gz
+Source0:	ftp://ftp.cs.unipr.it/pub/ppl/releases/%{version}/%{name}-%{version}.tar.gz
+Source1:	ppl.hh
+Source2:	ppl_c.h
+Source3:	pwl.hh
 Patch0:		ppl-0.9-docfiles.patch
 Patch1:		ppl-0.9-configure.patch
 Patch2:		ppl-0.9-makefiles.patch
@@ -174,6 +177,29 @@ rm -rf %{buildroot}
 make DESTDIR=%{buildroot} INSTALL="%{__install} -p" install
 rm -f %{buildroot}%{_libdir}/*.la %{buildroot}%{_libdir}/%{name}/*.la
 
+# In order to avoid multiarch conflicts when installed for multiple
+# architectures (i.e., i386 and x86_64), we rename the header files
+# of the ppl-devel and ppl-pwl-devel packages.  They are substituted with
+# ad-hoc switchers that select the appropriate header file depending on
+# the architecture for which the compiler is compiling.
+
+# Since our header files only depend on the sizeof things, we smash
+# ix86 onto i386 and arm* onto arm.
+normalized_arch=%{_arch}
+%ifarch %{ix86}
+normalized_arch=i386
+%endif
+%ifarch %{arm}
+normalized_arch=arm
+%endif
+
+mv %{buildroot}/%{_includedir}/ppl.hh %{buildroot}/%{_includedir}/ppl-${normalized_arch}.hh
+install -m644 %{SOURCE1} %{buildroot}/%{_includedir}/ppl.hh
+mv %{buildroot}/%{_includedir}/ppl_c.h %{buildroot}/%{_includedir}/ppl_c-${normalized_arch}.h
+install -m644 %{SOURCE2} %{buildroot}/%{_includedir}/ppl_c.h
+mv %{buildroot}/%{_includedir}/pwl.hh %{buildroot}/%{_includedir}/pwl-${normalized_arch}.hh
+install -m644 %{SOURCE3} %{buildroot}/%{_includedir}/pwl.hh
+
 %files
 %defattr(-,root,root,-)
 %doc %{_datadir}/doc/%{name}/BUGS
@@ -193,8 +219,8 @@ rm -f %{buildroot}%{_libdir}/*.la %{buildroot}%{_libdir}/%{name}/*.la
 %files devel
 %defattr(-,root,root,-)
 %doc %{_datadir}/doc/%{name}/README.configure
-%{_includedir}/ppl.hh
-%{_includedir}/ppl_c.h
+%{_includedir}/ppl*.hh
+%{_includedir}/ppl_c*.h
 %{_libdir}/libppl.so
 %{_libdir}/libppl_c.so
 %{_bindir}/ppl-config
@@ -269,7 +295,7 @@ rm -f %{buildroot}%{_libdir}/*.la %{buildroot}%{_libdir}/%{name}/*.la
 %files pwl-devel
 %defattr(-,root,root,-)
 %doc Watchdog/README.doc
-%{_includedir}/pwl.hh
+%{_includedir}/pwl*.hh
 %{_libdir}/libpwl.so
 
 %files pwl-static
@@ -285,6 +311,9 @@ rm -f %{buildroot}%{_libdir}/*.la %{buildroot}%{_libdir}/%{name}/*.la
 rm -rf %{buildroot}
 
 %changelog
+* Wed Jan 09 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.9-18
+- Avoid multiarch conflicts when installed for multiple architectures.
+
 * Sun Dec 23 2007 Roberto Bagnara <bagnara@cs.unipr.it> 0.9-17
 - The SWI-Prolog `pl' package is temporarily not available on the ppc64
   architecture: temporarily disabled `ppl-swiprolog' and
