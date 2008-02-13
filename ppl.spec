@@ -1,6 +1,6 @@
 Name:		ppl
 Version:	0.9
-Release:	18%{?dist}
+Release:	19%{?dist}
 
 Summary:	The Parma Polyhedra Library: a library of numerical abstractions
 Group:		Development/Libraries
@@ -13,6 +13,7 @@ Source3:	pwl.hh
 Patch0:		ppl-0.9-docfiles.patch
 Patch1:		ppl-0.9-configure.patch
 Patch2:		ppl-0.9-makefiles.patch
+Patch3:		ppl-0.9-cstdlib.patch
 #Icon:
 #Requires:
 BuildRequires:	gmp-devel >= 4.1.3
@@ -160,6 +161,7 @@ This package contains the static archive for the Parma Watchdog Library.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 CPPFLAGS="-I%{_includedir}/glpk"
@@ -178,7 +180,7 @@ make DESTDIR=%{buildroot} INSTALL="%{__install} -p" install
 rm -f %{buildroot}%{_libdir}/*.la %{buildroot}%{_libdir}/%{name}/*.la
 
 # In order to avoid multiarch conflicts when installed for multiple
-# architectures (i.e., i386 and x86_64), we rename the header files
+# architectures (e.g., i386 and x86_64), we rename the header files
 # of the ppl-devel and ppl-pwl-devel packages.  They are substituted with
 # ad-hoc switchers that select the appropriate header file depending on
 # the architecture for which the compiler is compiling.
@@ -311,6 +313,9 @@ install -m644 %{SOURCE3} %{buildroot}/%{_includedir}/pwl.hh
 rm -rf %{buildroot}
 
 %changelog
+* Wed Feb 13 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.9-19
+- Include a patch to supply a missing inclusions of <cstdlib>.
+
 * Wed Jan 09 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.9-18
 - Avoid multiarch conflicts when installed for multiple architectures.
 
