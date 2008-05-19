@@ -1,6 +1,6 @@
 Name:		ppl
 Version:	0.9
-Release:	19%{?dist}
+Release:	20%{?dist}
 
 Summary:	The Parma Polyhedra Library: a library of numerical abstractions
 Group:		Development/Libraries
@@ -16,6 +16,8 @@ Patch2:		ppl-0.9-makefiles.patch
 Patch3:		ppl-0.9-cstdlib.patch
 #Icon:
 #Requires:
+Requires(post): /sbin/ldconfig
+Requires(postun): /sbin/ldconfig
 BuildRequires:	gmp-devel >= 4.1.3
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 #Prefix:	/usr
@@ -133,6 +135,8 @@ Install this package if you want to program with the PPL.
 %package pwl
 Summary:	The Parma Watchdog Library: a C++ library for watchdog timers
 Group:		Development/Libraries
+Requires(post): /sbin/ldconfig
+Requires(postun): /sbin/ldconfig
 %description pwl
 The Parma Watchdog Library (PWL) provides support for multiple,
 concurrent watchdog timers on systems providing setitimer(2).  This
@@ -313,6 +317,9 @@ install -m644 %{SOURCE3} %{buildroot}/%{_includedir}/pwl.hh
 rm -rf %{buildroot}
 
 %changelog
+* Mon May 19 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.9-20
+- Added Requires /sbin/ldconfig.
+
 * Wed Feb 13 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.9-19
 - Include a patch to supply a missing inclusions of <cstdlib>.
 
