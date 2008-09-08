@@ -1,6 +1,6 @@
 Name:		ppl
 Version:	0.9
-Release:	22%{?dist}
+Release:	23%{?dist}
 
 Summary:	The Parma Polyhedra Library: a library of numerical abstractions
 Group:		Development/Libraries
@@ -311,6 +311,9 @@ install -m644 %{SOURCE3} %{buildroot}/%{_includedir}/pwl.hh
 rm -rf %{buildroot}
 
 %changelog
+* Mon Sep 8 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.9-23
+- Fixed ppl-0.9-swiprolog.patch.
+
 * Mon Sep 8 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.9-22
 - Implemented a workaround to cope with the new location of SWI-Prolog.h.
 

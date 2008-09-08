@@ -1,12 +1,12 @@
-diff -ur ppl-0.9/m4/ac_check_swi_prolog.m4 ppl-0.9-patched/m4/ac_check_swi_prolog.m4
---- ppl-0.9/m4/ac_check_swi_prolog.m4	2006-01-18 16:30:03.000000000 +0100
-+++ ppl-0.9-patched/m4/ac_check_swi_prolog.m4	2008-09-08 10:22:10.000000000 +0200
-@@ -41,7 +41,7 @@
+diff -ur ppl-0.9/configure ppl-0.9-patched/configure
+--- ppl-0.9/configure	2006-03-12 09:11:32.000000000 +0100
++++ ppl-0.9-patched/configure	2008-09-08 15:38:34.000000000 +0200
+@@ -14929,7 +14929,7 @@
+   swi_prolog_version=`$swi_prolog -dump-runtime-variables | grep PLVERSION= | sed 's/PLVERSION="\(.*\)";/\1/'`
  
-   dnl Additional version checks could be inserted here, if necessary.
  
 -  SWI_PROLOG_INCLUDE_OPTIONS="-I${swi_prolog_base}/include"
 +  SWI_PROLOG_INCLUDE_OPTIONS="-I${swi_prolog_base}/include -I/usr/include/pl"
    ac_save_CPPFLAGS="$CPPFLAGS"
    CPPFLAGS="$CPPFLAGS $SWI_PROLOG_INCLUDE_OPTIONS"
-   AC_LANG_PUSH(C++)
+   ac_ext=cc
