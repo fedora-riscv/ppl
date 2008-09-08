@@ -1,6 +1,6 @@
 Name:		ppl
 Version:	0.9
-Release:	20%{?dist}
+Release:	21%{?dist}
 
 Summary:	The Parma Polyhedra Library: a library of numerical abstractions
 Group:		Development/Libraries
@@ -83,27 +83,23 @@ This package contains the static archive for the GNU Prolog interface
 of the Parma Polyhedra Library.
 %endif
 
-%ifnarch ppc64
 %package swiprolog
 Summary:	The SWI-Prolog interface of the Parma Polyhedra Library
 Group:		Development/Libraries
-BuildRequires:	pl >= 5.6.0
+BuildRequires:	pl-devel >= 5.6.57-2
 Requires:	ppl = %{version}-%{release}, ppl-pwl = %{version}-%{release}, pl >= 5.6.0
 %description swiprolog
 This package adds SWI-Prolog support to the Parma Polyhedra Library.
 Install this package if you want to use the library in SWI Prolog programs.
-%endif
 
-%ifnarch ppc64
 %package swiprolog-static
 Summary:	The static archive for the SWI-Prolog interface of the Parma Polyhedra Library
 Group:		Development/Libraries
-BuildRequires:	pl >= 5.6.0
+BuildRequires:	pl-devel >= 5.6.57-2, pl-static >= 5.6.57-2
 Requires:	ppl-swiprolog = %{version}-%{release}
 %description swiprolog-static
 This package contains the static archive for the SWI-Prolog interface
 of the Parma Polyhedra Library.
-%endif
 
 %package yap
 Summary:	The YAP Prolog interface of the Parma Polyhedra Library
@@ -260,20 +256,16 @@ install -m644 %{SOURCE3} %{buildroot}/%{_includedir}/pwl.hh
 %{_libdir}/%{name}/libppl_gprolog.a
 %endif
 
-%ifnarch ppc64
 %files swiprolog
 %defattr(-,root,root,-)
 %doc interfaces/Prolog/SWI/README.swiprolog
 %{_bindir}/ppl_pl
 %{_libdir}/%{name}/libppl_swiprolog.so
 %{_libdir}/%{name}/ppl_swiprolog.pl
-%endif
 
-%ifnarch ppc64
 %files swiprolog-static
 %defattr(-,root,root,-)
 %{_libdir}/%{name}/libppl_swiprolog.a
-%endif
 
 %files yap
 %defattr(-,root,root,-)
@@ -317,6 +309,9 @@ install -m644 %{SOURCE3} %{buildroot}/%{_includedir}/pwl.hh
 rm -rf %{buildroot}
 
 %changelog
+* Mon Sep 8 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.9-21
+- Fixed the SWI-Prolog interface dependencies.
+
 * Mon May 19 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.9-20
 - Added Requires /sbin/ldconfig.
 
