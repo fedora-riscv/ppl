@@ -1,6 +1,6 @@
 Name:		ppl
 Version:	0.9
-Release:	21%{?dist}
+Release:	22%{?dist}
 
 Summary:	The Parma Polyhedra Library: a library of numerical abstractions
 Group:		Development/Libraries
@@ -14,6 +14,7 @@ Patch0:		ppl-0.9-docfiles.patch
 Patch1:		ppl-0.9-configure.patch
 Patch2:		ppl-0.9-makefiles.patch
 Patch3:		ppl-0.9-cstdlib.patch
+Patch4:		ppl-0.9-swiprolog.patch
 #Icon:
 #Requires:
 Requires(post): /sbin/ldconfig
@@ -162,6 +163,7 @@ This package contains the static archive for the Parma Watchdog Library.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 CPPFLAGS="-I%{_includedir}/glpk"
@@ -309,6 +311,9 @@ install -m644 %{SOURCE3} %{buildroot}/%{_includedir}/pwl.hh
 rm -rf %{buildroot}
 
 %changelog
+* Mon Sep 8 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.9-22
+- Implemented a workaround to cope with the new location of SWI-Prolog.h.
+
 * Mon Sep 8 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.9-21
 - Fixed the SWI-Prolog interface dependencies.
 
