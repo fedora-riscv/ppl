@@ -1,0 +1,42 @@
+diff -ur ppl-0.9/configure ppl-0.9-patched/configure
+--- ppl-0.9/configure	2006-03-12 09:11:32.000000000 +0100
++++ ppl-0.9-patched/configure	2008-09-08 15:38:34.000000000 +0200
+@@ -14929,7 +14929,7 @@
+   swi_prolog_version=`$swi_prolog -dump-runtime-variables | grep PLVERSION= | sed 's/PLVERSION="\(.*\)";/\1/'`
+ 
+ 
+-  SWI_PROLOG_INCLUDE_OPTIONS="-I${swi_prolog_base}/include"
++  SWI_PROLOG_INCLUDE_OPTIONS="-I${swi_prolog_base}/include -I/usr/include/pl"
+   ac_save_CPPFLAGS="$CPPFLAGS"
+   CPPFLAGS="$CPPFLAGS $SWI_PROLOG_INCLUDE_OPTIONS"
+   ac_ext=cc
+diff -ur ppl-0.9/interfaces/Prolog/SWI/Makefile.in ppl-0.9-patched/interfaces/Prolog/SWI/Makefile.in
+--- ppl-0.9/interfaces/Prolog/SWI/Makefile.in	2006-03-12 09:11:44.000000000 +0100
++++ ppl-0.9-patched/interfaces/Prolog/SWI/Makefile.in	2008-09-08 16:16:05.000000000 +0200
+@@ -728,7 +728,7 @@
+ # Notice: we are linking statically until we understand whether
+ # and if libtool and plld can interoperate.
+ @BUILD_SWI_PROLOG_INTERFACE_TRUE@ppl_pl$(EXEEXT): ppl_swiprolog.o ppl_pl.o | libppl_swiprolog.la
+-@BUILD_SWI_PROLOG_INTERFACE_TRUE@	plld -cc $(CC) -c++ $(CXX) -ld $(CXX) \
++@BUILD_SWI_PROLOG_INTERFACE_TRUE@	plld -v -cc $(CC) -c++ $(CXX) -ld $(CXX) \
+ @BUILD_SWI_PROLOG_INTERFACE_TRUE@		-ld-options`echo '' $(AM_CXXFLAGS) $(CXXFLAGS) | tr " " ","` \
+ @BUILD_SWI_PROLOG_INTERFACE_TRUE@		-o $@ $+ \
+ @BUILD_SWI_PROLOG_INTERFACE_TRUE@		-L$(top_builddir)/src/.libs -lppl \
+@@ -736,7 +736,7 @@
+ @BUILD_SWI_PROLOG_INTERFACE_TRUE@		@extra_libraries@
+ 
+ @BUILD_SWI_PROLOG_INTERFACE_TRUE@pl_clpq$(EXEEXT): ppl_swiprolog.o pl_clpq.o pl_clpq.pl ../tests/clpq.pl | libppl_swiprolog.la 
+-@BUILD_SWI_PROLOG_INTERFACE_TRUE@	plld -cc $(CC) -c++ $(CXX) -ld $(CXX) \
++@BUILD_SWI_PROLOG_INTERFACE_TRUE@	plld -v -cc $(CC) -c++ $(CXX) -ld $(CXX) \
+ @BUILD_SWI_PROLOG_INTERFACE_TRUE@		-ld-options`echo '' $(AM_CXXFLAGS) $(CXXFLAGS) | tr " " ","` \
+ @BUILD_SWI_PROLOG_INTERFACE_TRUE@		-o $@ $+ \
+ @BUILD_SWI_PROLOG_INTERFACE_TRUE@		-L$(top_builddir)/src/.libs -lppl \
+@@ -744,7 +744,7 @@
+ @BUILD_SWI_PROLOG_INTERFACE_TRUE@		@extra_libraries@
+ 
+ @BUILD_SWI_PROLOG_INTERFACE_TRUE@pl_clpq2$(EXEEXT): ppl_swiprolog.o pl_clpq.o pl_clpq.pl ../tests/clpq2.pl | libppl_swiprolog.la 
+-@BUILD_SWI_PROLOG_INTERFACE_TRUE@	plld -cc $(CC) -c++ $(CXX) -ld $(CXX) \
++@BUILD_SWI_PROLOG_INTERFACE_TRUE@	plld -v -cc $(CC) -c++ $(CXX) -ld $(CXX) \
+ @BUILD_SWI_PROLOG_INTERFACE_TRUE@		-ld-options`echo '' $(AM_CXXFLAGS) $(CXXFLAGS) | tr " " ","` \
+ @BUILD_SWI_PROLOG_INTERFACE_TRUE@		-o $@ $+ \
+ @BUILD_SWI_PROLOG_INTERFACE_TRUE@		-L$(top_builddir)/src/.libs -lppl \
