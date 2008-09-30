@@ -1,6 +1,6 @@
 Name:		ppl
 Version:	0.9
-Release:	24%{?dist}
+Release:	25%{?dist}
 
 Summary:	The Parma Polyhedra Library: a library of numerical abstractions
 Group:		Development/Libraries
@@ -88,7 +88,7 @@ of the Parma Polyhedra Library.
 Summary:	The SWI-Prolog interface of the Parma Polyhedra Library
 Group:		Development/Libraries
 BuildRequires:	pl-devel >= 5.6.57-2
-Requires:	ppl = %{version}-%{release}, ppl-pwl = %{version}-%{release}, pl >= 5.6.0
+Requires:	ppl = %{version}-%{release}, ppl-pwl = %{version}-%{release}, pl >= 5.6.57-2
 %description swiprolog
 This package adds SWI-Prolog support to the Parma Polyhedra Library.
 Install this package if you want to use the library in SWI Prolog programs.
@@ -311,6 +311,9 @@ install -m644 %{SOURCE3} %{buildroot}/%{_includedir}/pwl.hh
 rm -rf %{buildroot}
 
 %changelog
+* Tue Sep 30 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.9-25
+- The `swiprolog' package now requires pl >= 5.6.57-2.
+
 * Mon Sep 8 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.9-24
 - Changed ppl-0.9-swiprolog.patch so as to invoke `plld' with
   the `-v' option.
