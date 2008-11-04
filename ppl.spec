@@ -2,7 +2,7 @@
 
 Name:           ppl
 Version:        0.10
-Release:        1%{?dist}
+Release:        2%{?dist}
 
 Summary:        The Parma Polyhedra Library: a library of numerical abstractions
 Group:          Development/Libraries
@@ -18,7 +18,7 @@ Source3:        pwl.hh
 #Requires:
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
-BuildRequires:  gmp-devel >= 4.1.3
+BuildRequires:  gmp-devel >= 4.1.3, m4 >= 1.4.8
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 #Prefix:        /usr
 
@@ -401,6 +401,9 @@ mv \
 rm -rf %{buildroot}
 
 %changelog
+* Thu Nov 4 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.10-2
+- Added m4 >= 1.4.8 to build requirements.
+
 * Thu Nov 4 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.10-1
 - Updated and extended for PPL 0.10.  In particular, the `ppl-config'
   program, being useful also for non-development activities, has been
