@@ -1,27 +1,26 @@
-Name:		ppl
-Version:	0.9
-Release:	25%{?dist}
+#%define opt %(test -x %{_bindir}/ocamlopt && echo 1 || echo 0)
 
-Summary:	The Parma Polyhedra Library: a library of numerical abstractions
-Group:		Development/Libraries
-License:	GPLv2+
-URL:		http://www.cs.unipr.it/ppl/
-Source0:	ftp://ftp.cs.unipr.it/pub/ppl/releases/%{version}/%{name}-%{version}.tar.gz
-Source1:	ppl.hh
-Source2:	ppl_c.h
-Source3:	pwl.hh
-Patch0:		ppl-0.9-docfiles.patch
-Patch1:		ppl-0.9-configure.patch
-Patch2:		ppl-0.9-makefiles.patch
-Patch3:		ppl-0.9-cstdlib.patch
-Patch4:		ppl-0.9-swiprolog.patch
+Name:           ppl
+Version:        0.10
+Release:        1%{?dist}
+
+Summary:        The Parma Polyhedra Library: a library of numerical abstractions
+Group:          Development/Libraries
+License:        GPLv3+
+URL:            http://www.cs.unipr.it/ppl/
+Source0:        ftp://ftp.cs.unipr.it/pub/ppl/releases/%{version}/%{name}-%{version}.tar.gz
+Source1:        ppl.hh
+Source2:        ppl_c.h
+Source3:        pwl.hh
+#Patch0:        none
+#Patch1:        none
 #Icon:
 #Requires:
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
-BuildRequires:	gmp-devel >= 4.1.3
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
-#Prefix:	/usr
+BuildRequires:  gmp-devel >= 4.1.3
+BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
+#Prefix:        /usr
 
 %description
 The Parma Polyhedra Library (PPL) is a library for the manipulation of
@@ -37,38 +36,38 @@ software.  This package provides all what is necessary to run
 applications using the PPL through its C and C++ interfaces.
 
 %package devel
-Summary:	Development tools for the Parma Polyhedra Library C and C++ interfaces
-Group:		Development/Libraries
-Requires:	ppl = %{version}-%{release}, gmp-devel >= 4.1.3
+Summary:        Development tools for the Parma Polyhedra Library C and C++ interfaces
+Group:          Development/Libraries
+Requires:       %{name} = %{version}-%{release}, gmp-devel >= 4.1.3
 %description devel
-The header files, Autoconf macro, documentation, and ppl-config tool
-developing applications using the Parma Polyhedra Library through its
-C and C++ interfaces.
+The header files, Autoconf macro and minimal documentation for
+developing applications using the Parma Polyhedra Library through
+its C and C++ interfaces.
 
 %package static
-Summary:	Static archives for the Parma Polyhedra Library C and C++ interfaces
-Group:		Development/Libraries
-Requires:	ppl-devel = %{version}-%{release}
+Summary:        Static archives for the Parma Polyhedra Library C and C++ interfaces
+Group:          Development/Libraries
+Requires:       %{name}-devel = %{version}-%{release}
 %description static
 The static archives for the Parma Polyhedra Library C and C++ interfaces.
 
 %package utils
-Summary:	Utilities using the Parma Polyhedra Library
-Group:		Development/Libraries
-Requires:	ppl = %{version}-%{release}
-BuildRequires:	glpk-devel >= 4.13
+Summary:        Utilities using the Parma Polyhedra Library
+Group:          Development/Libraries
+Requires:       %{name} = %{version}-%{release}
+BuildRequires:  glpk-devel >= 4.13
 %description utils
-This package contains the (mixed integer) linear programming solver ppl_lpsol
+This package contains the mixed integer linear programming solver ppl_lpsol
 and the program ppl_lcdd for vertex/facet enumeration of convex polyhedra.
 
 %ifnarch ppc64
 %package gprolog
 # The `gprolog' package is not available on ppc64:
 # the GNU Prolog interface must thus be disabled for that architecture.
-Summary:	The GNU Prolog interface of the Parma Polyhedra Library
-Group:		Development/Libraries
-BuildRequires:	gprolog >= 1.2.19
-Requires:	ppl = %{version}-%{release}, ppl-pwl = %{version}-%{release}, gprolog >= 1.2.19
+Summary:        The GNU Prolog interface of the Parma Polyhedra Library
+Group:          Development/Libraries
+BuildRequires:  gprolog >= 1.2.19
+Requires:       %{name} = %{version}-%{release}, %{name}-pwl = %{version}-%{release}, gprolog >= 1.2.19
 %description gprolog
 This package adds GNU Prolog support to the Parma Polyhedra Library (PPL).
 Install this package if you want to use the library in GNU Prolog programs.
@@ -76,62 +75,93 @@ Install this package if you want to use the library in GNU Prolog programs.
 
 %ifnarch ppc64
 %package gprolog-static
-Summary:	The static archive for the GNU Prolog interface of the Parma Polyhedra Library
-Group:		Development/Libraries
-Requires:	ppl-gprolog = %{version}-%{release}
+Summary:        The static archive for the GNU Prolog interface of the Parma Polyhedra Library
+Group:          Development/Libraries
+Requires:       %{name}-gprolog = %{version}-%{release}
 %description gprolog-static
 This package contains the static archive for the GNU Prolog interface
 of the Parma Polyhedra Library.
 %endif
 
 %package swiprolog
-Summary:	The SWI-Prolog interface of the Parma Polyhedra Library
-Group:		Development/Libraries
-BuildRequires:	pl-devel >= 5.6.57-2
-Requires:	ppl = %{version}-%{release}, ppl-pwl = %{version}-%{release}, pl >= 5.6.57-2
+Summary:        The SWI-Prolog interface of the Parma Polyhedra Library
+Group:          Development/Libraries
+BuildRequires:  pl-devel >= 5.6.57-2
+Requires:       %{name} = %{version}-%{release}, %{name}-pwl = %{version}-%{release}, pl >= 5.6.57-2
 %description swiprolog
 This package adds SWI-Prolog support to the Parma Polyhedra Library.
-Install this package if you want to use the library in SWI Prolog programs.
+Install this package if you want to use the library in SWI-Prolog programs.
 
 %package swiprolog-static
-Summary:	The static archive for the SWI-Prolog interface of the Parma Polyhedra Library
-Group:		Development/Libraries
-BuildRequires:	pl-devel >= 5.6.57-2, pl-static >= 5.6.57-2
-Requires:	ppl-swiprolog = %{version}-%{release}
+Summary:        The static archive for the SWI-Prolog interface of the Parma Polyhedra Library
+Group:          Development/Libraries
+BuildRequires:  pl-devel >= 5.6.57-2, pl-static >= 5.6.57-2
+Requires:       %{name}-swiprolog = %{version}-%{release}
 %description swiprolog-static
 This package contains the static archive for the SWI-Prolog interface
 of the Parma Polyhedra Library.
 
 %package yap
-Summary:	The YAP Prolog interface of the Parma Polyhedra Library
-Group:		Development/Libraries
-BuildRequires:	yap-devel >= 5.1.1
-Requires:	ppl = %{version}-%{release}, ppl-pwl = %{version}-%{release}, yap >= 5.1.1
+Summary:        The YAP Prolog interface of the Parma Polyhedra Library
+Group:          Development/Libraries
+BuildRequires:  yap-devel >= 5.1.1
+Requires:       %{name} = %{version}-%{release}, %{name}-pwl = %{version}-%{release}, yap >= 5.1.1
 %description yap
 This package adds YAP Prolog support to the Parma Polyhedra Library (PPL).
 Install this package if you want to use the library in YAP Prolog programs.
 
-%package yap-static
-Summary:	The static archive for the YAP Prolog interface of the Parma Polyhedra Library
-Group:		Development/Libraries
-BuildRequires:	yap-devel >= 5.1.1
-Requires:	ppl-yap = %{version}-%{release}
-%description yap-static
-This package contains the static archive for the YAP Prolog interface
+#%package ocaml
+#Summary:        The OCaml interface of the Parma Polyhedra Library
+#Group:          Development/Libraries
+#BuildRequires:  ocaml >= 3.09
+#Requires:       %{name} = %{version}-%{release}
+#%description ocaml
+#This package adds Objective Caml (OCaml) support to the Parma
+#Polyhedra Library.  Install this package if you want to use the
+#library in OCaml programs.
+
+#%package ocaml-devel
+#Summary:        The OCaml interface of the Parma Polyhedra Library
+#Group:          Development/Libraries
+#Requires:       %{name}-ocaml = %{version}-%{release}
+#%description ocaml-devel
+#This package contains libraries and signature files for developing
+#applications using the OCaml interface of the Parma Polyhedra Library.
+
+%package java
+Summary:        The Java interface of the Parma Polyhedra Library
+Group:          Development/Libraries
+BuildRequires:  java-devel >= 1:1.6.0
+BuildRequires:  jpackage-utils
+Requires:       java-devel >= 1:1.6.0
+Requires:       jpackage-utils
+Requires:       %{name} = %{version}-%{release}
+%description java
+This package adds Java support to the Parma Polyhedra Library.
+Install this package if you want to use the library in Java programs.
+
+%package java-javadoc
+Summary:        Javadocs for %{name}-java
+Group:          Documentation
+Requires:       %{name}-java = %{version}-%{release}
+Requires:       jpackage-utils
+%description java-javadoc
+This package contains the API documentation for Java interface
 of the Parma Polyhedra Library.
 
+
 %package docs
-Summary:	Documentation for the Parma Polyhedra Library
-Group:		Documentation
-Requires:	ppl = %{version}-%{release}
+Summary:        Documentation for the Parma Polyhedra Library
+Group:          Documentation
+Requires:       %{name} = %{version}-%{release}
 %description docs
 This package contains all the documentations required by programmers
 using the Parma Polyhedra Library (PPL).
 Install this package if you want to program with the PPL.
 
 %package pwl
-Summary:	The Parma Watchdog Library: a C++ library for watchdog timers
-Group:		Development/Libraries
+Summary:        The Parma Watchdog Library: a C++ library for watchdog timers
+Group:          Development/Libraries
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 %description pwl
@@ -142,28 +172,34 @@ PWL.  The PWL is currently distributed with the Parma Polyhedra
 Library, but is totally independent from it.
 
 %package pwl-devel
-Summary:	Development tools for the Parma Watchdog Library
-Group:		Development/Libraries
-Requires:	ppl-pwl = %{version}-%{release}
+Summary:        Development tools for the Parma Watchdog Library
+Group:          Development/Libraries
+Requires:       %{name}-pwl = %{version}-%{release}
 %description pwl-devel
 The header files, documentation and static libraries for developing
 applications using the Parma Watchdog Library.
 
 %package pwl-static
-Summary:	Static archive for the Parma Watchdog Library
-Group:		Development/Libraries
-Requires:	ppl-pwl-devel = %{version}-%{release}
+Summary:        Static archive for the Parma Watchdog Library
+Group:          Development/Libraries
+Requires:       %{name}-pwl-devel = %{version}-%{release}
 %description pwl-static
 This package contains the static archive for the Parma Watchdog Library.
+
+%package pwl-docs
+Summary:        Documentation for the Parma Watchdog Library
+Group:          Documentation
+Requires:       %{name}-pwl = %{version}-%{release}
+%description pwl-docs
+This package contains all the documentations required by programmers
+using the Parma Watchdog Library (PWL).
+Install this package if you want to program with the PWL.
 
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
+#%patch0 -p1
+#%patch1 -p1
 
 %build
 CPPFLAGS="-I%{_includedir}/glpk"
@@ -171,9 +207,11 @@ CPPFLAGS="-I%{_includedir}/glpk"
 CPPFLAGS="$CPPFLAGS -I%{_libdir}/gprolog-`gprolog --version 2>&1 | head -1 | sed -e "s/.* \([^ ]*\)$/\1/g"`/include"
 %endif
 CPPFLAGS="$CPPFLAGS -I%{_includedir}/Yap"
-%configure --enable-shared --disable-rpath CPPFLAGS="$CPPFLAGS"
+%configure --enable-shared --disable-rpath --enable-interfaces="c++ c gnu_prolog swi_prolog yap_prolog java" CPPFLAGS="$CPPFLAGS"
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
+sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' Watchdog/libtool
+sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' Watchdog/libtool
 make %{?_smp_mflags}
 
 %install
@@ -204,6 +242,12 @@ install -m644 %{SOURCE2} %{buildroot}/%{_includedir}/ppl_c.h
 mv %{buildroot}/%{_includedir}/pwl.hh %{buildroot}/%{_includedir}/pwl-${normalized_arch}.hh
 install -m644 %{SOURCE3} %{buildroot}/%{_includedir}/pwl.hh
 
+# Install the Javadocs for ppl-java.
+mkdir -p %{buildroot}%{_javadocdir}
+mv \
+%{buildroot}/%{_datadir}/doc/%{name}/ppl-user-java-interface-%{version}-html \
+%{buildroot}%{_javadocdir}/%{name}-java
+
 %files
 %defattr(-,root,root,-)
 %doc %{_datadir}/doc/%{name}/BUGS
@@ -212,24 +256,27 @@ install -m644 %{SOURCE3} %{buildroot}/%{_includedir}/pwl.hh
 %doc %{_datadir}/doc/%{name}/ChangeLog
 %doc %{_datadir}/doc/%{name}/NEWS
 %doc %{_datadir}/doc/%{name}/README
+%doc %{_datadir}/doc/%{name}/README.configure
 %doc %{_datadir}/doc/%{name}/TODO
 %doc %{_datadir}/doc/%{name}/gpl.*
 %{_libdir}/libppl.so.*
 %{_libdir}/libppl_c.so.*
+%{_bindir}/ppl-config
+%{_mandir}/man1/ppl-config.1.gz
 
 %dir %{_libdir}/%{name}
 %dir %{_datadir}/doc/%{name}
 
 %files devel
 %defattr(-,root,root,-)
-%doc %{_datadir}/doc/%{name}/README.configure
 %{_includedir}/ppl*.hh
 %{_includedir}/ppl_c*.h
 %{_libdir}/libppl.so
 %{_libdir}/libppl_c.so
-%{_bindir}/ppl-config
-%{_mandir}/man1/ppl-config.1.gz
+%{_mandir}/man3/libppl.3.gz
+%{_mandir}/man3/libppl_c.3.gz
 %{_datadir}/aclocal/ppl.m4
+%{_datadir}/aclocal/ppl_c.m4
 
 %files static
 %defattr(-,root,root,-)
@@ -275,32 +322,75 @@ install -m644 %{SOURCE3} %{buildroot}/%{_includedir}/pwl.hh
 %{_libdir}/%{name}/ppl_yap.pl
 %{_libdir}/%{name}/ppl_yap.so
 
-%files yap-static
+#%files ocaml
+#%defattr(-,root,root,-)
+#%doc interfaces/OCaml/README.ocaml
+#%{_libdir}/%{name}/ppl_ocaml.cma
+#%{_libdir}/%{name}/ppl_ocaml.cmi
+#%{_libdir}/%{name}/ppl_ocaml_globals.cmi
+
+#%files ocaml-devel
+#%defattr(-,root,root,-)
+#%{_libdir}/%{name}/libppl_ocaml.a
+#%{_libdir}/%{name}/ppl_ocaml.mli
+
+%files java
 %defattr(-,root,root,-)
-%{_libdir}/%{name}/ppl_yap.a
+%doc interfaces/Java/README.java
+%{_libdir}/%{name}/libppl_java.so
+%{_libdir}/%{name}/ppl_java.jar
+
+%files java-javadoc
+%defattr(-,root,root,-)
+%{_javadocdir}/%{name}-java
 
 %files docs
 %defattr(-,root,root,-)
 %doc %{_datadir}/doc/%{name}/README.doc
-%doc %{_datadir}/doc/%{name}/ppl-user-0.9-html/
 %doc %{_datadir}/doc/%{name}/fdl.*
-%doc %{_datadir}/doc/%{name}/ppl-user-0.9.pdf
-%doc %{_datadir}/doc/%{name}/ppl-user-0.9.ps.gz
+%doc %{_datadir}/doc/%{name}/ppl-user-%{version}-html/
+%doc %{_datadir}/doc/%{name}/ppl-user-c-interface-%{version}-html/
+#%doc %{_datadir}/doc/%{name}/ppl-user-ocaml-interface-%{version}-html/
+%doc %{_datadir}/doc/%{name}/ppl-user-prolog-interface-%{version}-html/
+%doc %{_datadir}/doc/%{name}/ppl-user-%{version}.pdf
+%doc %{_datadir}/doc/%{name}/ppl-user-c-interface-%{version}.pdf
+%doc %{_datadir}/doc/%{name}/ppl-user-java-interface-%{version}.pdf
+#%doc %{_datadir}/doc/%{name}/ppl-user-ocaml-interface-%{version}.pdf
+%doc %{_datadir}/doc/%{name}/ppl-user-prolog-interface-%{version}.pdf
+%doc %{_datadir}/doc/%{name}/ppl-user-%{version}.ps.gz
+%doc %{_datadir}/doc/%{name}/ppl-user-c-interface-%{version}.ps.gz
+%doc %{_datadir}/doc/%{name}/ppl-user-java-interface-%{version}.ps.gz
+#%doc %{_datadir}/doc/%{name}/ppl-user-ocaml-interface-%{version}.ps.gz
+%doc %{_datadir}/doc/%{name}/ppl-user-prolog-interface-%{version}.ps.gz
 
 %files pwl
 %defattr(-,root,root,-)
-%doc Watchdog/BUGS Watchdog/COPYING Watchdog/CREDITS Watchdog/ChangeLog Watchdog/NEWS Watchdog/README
+%doc %{_datadir}/doc/pwl/BUGS
+%doc %{_datadir}/doc/pwl/COPYING
+%doc %{_datadir}/doc/pwl/CREDITS
+%doc %{_datadir}/doc/pwl/ChangeLog
+%doc %{_datadir}/doc/pwl/NEWS
+%doc %{_datadir}/doc/pwl/README
+%doc %{_datadir}/doc/pwl/gpl.*
 %{_libdir}/libpwl.so.*
 
 %files pwl-devel
 %defattr(-,root,root,-)
-%doc Watchdog/README.doc
+%doc Watchdog/doc/README.doc
 %{_includedir}/pwl*.hh
 %{_libdir}/libpwl.so
 
 %files pwl-static
 %defattr(-,root,root,-)
 %{_libdir}/libpwl.a
+
+%files pwl-docs
+%defattr(-,root,root,-)
+%doc %{_datadir}/doc/pwl/README.doc
+%doc %{_datadir}/doc/pwl/fdl.*
+%doc %{_datadir}/doc/pwl/pwl-user-0.5-html/
+%doc %{_datadir}/doc/pwl/pwl-user-0.5.pdf
+%doc %{_datadir}/doc/pwl/pwl-user-0.5.ps.gz
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -311,6 +401,11 @@ install -m644 %{SOURCE3} %{buildroot}/%{_includedir}/pwl.hh
 rm -rf %{buildroot}
 
 %changelog
+* Thu Nov 4 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.10-1
+- Updated and extended for PPL 0.10.  In particular, the `ppl-config'
+  program, being useful also for non-development activities, has been
+  brought back to the main package.
+
 * Tue Sep 30 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.9-25
 - The `swiprolog' package now requires pl >= 5.6.57-2.
 
