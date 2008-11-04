@@ -2,7 +2,7 @@
 
 Name:           ppl
 Version:        0.10
-Release:        2%{?dist}
+Release:        3%{?dist}
 
 Summary:        The Parma Polyhedra Library: a library of numerical abstractions
 Group:          Development/Libraries
@@ -401,6 +401,9 @@ mv \
 rm -rf %{buildroot}
 
 %changelog
+* Thu Nov 4 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.10-3
+- Rebuild after the addition, in CVS, of ppl.hh, ppl_c.h and pwl.hh.
+
 * Thu Nov 4 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.10-2
 - Added m4 >= 1.4.8 to build requirements.
 
