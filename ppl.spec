@@ -2,7 +2,7 @@
 
 Name:           ppl
 Version:        0.10
-Release:        3%{?dist}
+Release:        4%{?dist}
 
 Summary:        The Parma Polyhedra Library: a library of numerical abstractions
 Group:          Development/Libraries
@@ -128,26 +128,26 @@ Install this package if you want to use the library in YAP Prolog programs.
 #This package contains libraries and signature files for developing
 #applications using the OCaml interface of the Parma Polyhedra Library.
 
-%package java
-Summary:        The Java interface of the Parma Polyhedra Library
-Group:          Development/Libraries
-BuildRequires:  java-devel >= 1:1.6.0
-BuildRequires:  jpackage-utils
-Requires:       java-devel >= 1:1.6.0
-Requires:       jpackage-utils
-Requires:       %{name} = %{version}-%{release}
-%description java
-This package adds Java support to the Parma Polyhedra Library.
-Install this package if you want to use the library in Java programs.
+#%package java
+#Summary:        The Java interface of the Parma Polyhedra Library
+#Group:          Development/Libraries
+#BuildRequires:  java-devel >= 1:1.6.0
+#BuildRequires:  jpackage-utils
+#Requires:       java-devel >= 1:1.6.0
+#Requires:       jpackage-utils
+#Requires:       %{name} = %{version}-%{release}
+#%description java
+#This package adds Java support to the Parma Polyhedra Library.
+#Install this package if you want to use the library in Java programs.
 
-%package java-javadoc
-Summary:        Javadocs for %{name}-java
-Group:          Documentation
-Requires:       %{name}-java = %{version}-%{release}
-Requires:       jpackage-utils
-%description java-javadoc
-This package contains the API documentation for Java interface
-of the Parma Polyhedra Library.
+#%package java-javadoc
+#Summary:        Javadocs for %{name}-java
+#Group:          Documentation
+#Requires:       %{name}-java = %{version}-%{release}
+#Requires:       jpackage-utils
+#%description java-javadoc
+#This package contains the API documentation for Java interface
+#of the Parma Polyhedra Library.
 
 
 %package docs
@@ -207,7 +207,7 @@ CPPFLAGS="-I%{_includedir}/glpk"
 CPPFLAGS="$CPPFLAGS -I%{_libdir}/gprolog-`gprolog --version 2>&1 | head -1 | sed -e "s/.* \([^ ]*\)$/\1/g"`/include"
 %endif
 CPPFLAGS="$CPPFLAGS -I%{_includedir}/Yap"
-%configure --enable-shared --disable-rpath --enable-interfaces="c++ c gnu_prolog swi_prolog yap_prolog java" CPPFLAGS="$CPPFLAGS"
+%configure --enable-shared --disable-rpath --enable-interfaces="c++ c gnu_prolog swi_prolog yap_prolog" CPPFLAGS="$CPPFLAGS"
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' Watchdog/libtool
@@ -243,10 +243,10 @@ mv %{buildroot}/%{_includedir}/pwl.hh %{buildroot}/%{_includedir}/pwl-${normaliz
 install -m644 %{SOURCE3} %{buildroot}/%{_includedir}/pwl.hh
 
 # Install the Javadocs for ppl-java.
-mkdir -p %{buildroot}%{_javadocdir}
-mv \
-%{buildroot}/%{_datadir}/doc/%{name}/ppl-user-java-interface-%{version}-html \
-%{buildroot}%{_javadocdir}/%{name}-java
+#mkdir -p %{buildroot}%{_javadocdir}
+#mv \
+#%{buildroot}/%{_datadir}/doc/%{name}/ppl-user-java-interface-%{version}-html \
+#%{buildroot}%{_javadocdir}/%{name}-java
 
 %files
 %defattr(-,root,root,-)
@@ -334,15 +334,15 @@ mv \
 #%{_libdir}/%{name}/libppl_ocaml.a
 #%{_libdir}/%{name}/ppl_ocaml.mli
 
-%files java
-%defattr(-,root,root,-)
-%doc interfaces/Java/README.java
-%{_libdir}/%{name}/libppl_java.so
-%{_libdir}/%{name}/ppl_java.jar
+#%files java
+#%defattr(-,root,root,-)
+#%doc interfaces/Java/README.java
+#%{_libdir}/%{name}/libppl_java.so
+#%{_libdir}/%{name}/ppl_java.jar
 
-%files java-javadoc
-%defattr(-,root,root,-)
-%{_javadocdir}/%{name}-java
+#%files java-javadoc
+#%defattr(-,root,root,-)
+#%{_javadocdir}/%{name}-java
 
 %files docs
 %defattr(-,root,root,-)
@@ -354,12 +354,12 @@ mv \
 %doc %{_datadir}/doc/%{name}/ppl-user-prolog-interface-%{version}-html/
 %doc %{_datadir}/doc/%{name}/ppl-user-%{version}.pdf
 %doc %{_datadir}/doc/%{name}/ppl-user-c-interface-%{version}.pdf
-%doc %{_datadir}/doc/%{name}/ppl-user-java-interface-%{version}.pdf
+#%doc %{_datadir}/doc/%{name}/ppl-user-java-interface-%{version}.pdf
 #%doc %{_datadir}/doc/%{name}/ppl-user-ocaml-interface-%{version}.pdf
 %doc %{_datadir}/doc/%{name}/ppl-user-prolog-interface-%{version}.pdf
 %doc %{_datadir}/doc/%{name}/ppl-user-%{version}.ps.gz
 %doc %{_datadir}/doc/%{name}/ppl-user-c-interface-%{version}.ps.gz
-%doc %{_datadir}/doc/%{name}/ppl-user-java-interface-%{version}.ps.gz
+#%doc %{_datadir}/doc/%{name}/ppl-user-java-interface-%{version}.ps.gz
 #%doc %{_datadir}/doc/%{name}/ppl-user-ocaml-interface-%{version}.ps.gz
 %doc %{_datadir}/doc/%{name}/ppl-user-prolog-interface-%{version}.ps.gz
 
@@ -401,6 +401,9 @@ mv \
 rm -rf %{buildroot}
 
 %changelog
+* Thu Nov 4 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.10-4
+- OpenJDK is not available on Fedora 8: Java interface disabled.
+
 * Thu Nov 4 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.10-3
 - Rebuild after the addition, in CVS, of ppl.hh, ppl_c.h and pwl.hh.
 
