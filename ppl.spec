@@ -2,7 +2,7 @@
 
 Name:           ppl
 Version:        0.10
-Release:        5%{?dist}
+Release:        6%{?dist}
 
 Summary:        The Parma Polyhedra Library: a library of numerical abstractions
 Group:          Development/Libraries
@@ -12,7 +12,7 @@ Source0:        ftp://ftp.cs.unipr.it/pub/ppl/releases/%{version}/%{name}-%{vers
 Source1:        ppl.hh
 Source2:        ppl_c.h
 Source3:        pwl.hh
-#Patch0:        none
+Patch0:         ppl-0.10-bigendian.patch
 #Patch1:        none
 #Icon:
 #Requires:
@@ -198,7 +198,7 @@ Install this package if you want to program with the PWL.
 
 %prep
 %setup -q
-#%patch0 -p1
+%patch0 -p1
 #%patch1 -p1
 
 %build
@@ -207,12 +207,6 @@ CPPFLAGS="-I%{_includedir}/glpk"
 CPPFLAGS="$CPPFLAGS -I%{_libdir}/gprolog-`gprolog --version 2>&1 | head -1 | sed -e "s/.* \([^ ]*\)$/\1/g"`/include"
 %endif
 CPPFLAGS="$CPPFLAGS -I%{_includedir}/Yap"
-%ifarch ppc
-CPPFLAGS="$CPPFLAGS -UWORDS_BIGENDIAN -DPPL_WORDS_BIGENDIAN=1"
-%endif
-%ifarch ppc64
-CPPFLAGS="$CPPFLAGS -UWORDS_BIGENDIAN -DPPL_WORDS_BIGENDIAN=1"
-%endif
 %configure --enable-shared --disable-rpath --enable-interfaces="c++ c gnu_prolog swi_prolog yap_prolog java" CPPFLAGS="$CPPFLAGS"
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
@@ -407,6 +401,10 @@ mv \
 rm -rf %{buildroot}
 
 %changelog
+* Wed Feb 04 2009 Roberto Bagnara <bagnara@cs.unipr.it> 0.10-6
+- Better workaround for the bug affecting PPL 0.10 on big-endian
+  architectures.
+
 * Tue Feb 03 2009 Roberto Bagnara <bagnara@cs.unipr.it> 0.10-5
 - Work around the bug affecting PPL 0.10 on big-endian architectures.
 
