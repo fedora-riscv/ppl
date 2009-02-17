@@ -2,7 +2,7 @@
 
 Name:           ppl
 Version:        0.10
-Release:        6%{?dist}
+Release:        7%{?dist}
 
 Summary:        The Parma Polyhedra Library: a library of numerical abstractions
 Group:          Development/Libraries
@@ -60,7 +60,7 @@ BuildRequires:  glpk-devel >= 4.13
 This package contains the mixed integer linear programming solver ppl_lpsol
 and the program ppl_lcdd for vertex/facet enumeration of convex polyhedra.
 
-%ifnarch ppc64
+%ifnarch ppc64 s390 s390x
 %package gprolog
 # The `gprolog' package is not available on ppc64:
 # the GNU Prolog interface must thus be disabled for that architecture.
@@ -73,7 +73,7 @@ This package adds GNU Prolog support to the Parma Polyhedra Library (PPL).
 Install this package if you want to use the library in GNU Prolog programs.
 %endif
 
-%ifnarch ppc64
+%ifnarch ppc64 s390 s390x
 %package gprolog-static
 Summary:        The static archive for the GNU Prolog interface of the Parma Polyhedra Library
 Group:          Development/Libraries
@@ -203,7 +203,7 @@ Install this package if you want to program with the PWL.
 
 %build
 CPPFLAGS="-I%{_includedir}/glpk"
-%ifnarch ppc64
+%ifnarch ppc64 s390 s390x
 CPPFLAGS="$CPPFLAGS -I%{_libdir}/gprolog-`gprolog --version 2>&1 | head -1 | sed -e "s/.* \([^ ]*\)$/\1/g"`/include"
 %endif
 CPPFLAGS="$CPPFLAGS -I%{_includedir}/Yap"
@@ -289,7 +289,7 @@ mv \
 %{_mandir}/man1/ppl_lcdd.1.gz
 %{_mandir}/man1/ppl_lpsol.1.gz
 
-%ifnarch ppc64
+%ifnarch ppc64 s390 s390x
 %files gprolog
 %defattr(-,root,root,-)
 %doc interfaces/Prolog/GNU/README.gprolog
@@ -298,7 +298,7 @@ mv \
 %{_libdir}/%{name}/libppl_gprolog.so
 %endif
 
-%ifnarch ppc64
+%ifnarch ppc64 s390 s390x
 %files gprolog-static
 %defattr(-,root,root,-)
 %{_libdir}/%{name}/libppl_gprolog.a
@@ -401,6 +401,10 @@ mv \
 rm -rf %{buildroot}
 
 %changelog
+* Wed Feb 17 2009 Karsten Hopp <karsten@redhat.comt> 0.10-7
+- there are no prolog packages available on s390 and s390, disable them
+  similar to ppc64
+
 * Wed Feb 04 2009 Roberto Bagnara <bagnara@cs.unipr.it> 0.10-6
 - Better workaround for the bug affecting PPL 0.10 on big-endian
   architectures.
