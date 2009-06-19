@@ -1,8 +1,8 @@
 #%define opt %(test -x %{_bindir}/ocamlopt && echo 1 || echo 0)
 
 Name:           ppl
-Version:        0.10.3
-Release:        2%{?dist}
+Version:        0.10.2
+Release:        3%{?dist}
 
 Summary:        The Parma Polyhedra Library: a library of numerical abstractions
 Group:          Development/Libraries
