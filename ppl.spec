@@ -2,13 +2,13 @@
 
 Name:           ppl
 Version:        0.10.2
-Release:        5%{?dist}
+Release:        6%{?dist}
 
 Summary:        The Parma Polyhedra Library: a library of numerical abstractions
 Group:          Development/Libraries
 License:        GPLv3+
 URL:            http://www.cs.unipr.it/ppl/
-Source0:        ftp://ftp.cs.unipr.it/pub/ppl/releases/%{version}/%{name}-%{version}.tar.gz
+Source0:        ftp://ftp.cs.unipr.it/pub/ppl/releases/%{version}/%{name}-%{version}.tar.bz2
 Source1:        ppl.hh
 Source2:        ppl_c.h
 Source3:        pwl.hh
@@ -416,6 +416,9 @@ mv \
 rm -rf %{buildroot}
 
 %changelog
+* Tue Aug 11 2009 Ville Skyttä <ville.skytta@iki.fi> - 0.10.2-6
+- Use bzipped upstream tarball.
+
 * Sun Jul 26 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.10.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
