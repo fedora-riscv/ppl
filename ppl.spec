@@ -2,7 +2,7 @@
 
 Name:           ppl
 Version:        0.10.2
-Release:        6%{?dist}
+Release:        7%{?dist}
 
 Summary:        The Parma Polyhedra Library: a library of numerical abstractions
 Group:          Development/Libraries
@@ -416,6 +416,9 @@ mv \
 rm -rf %{buildroot}
 
 %changelog
+* Fri Aug 14 2009 Roberto Bagnara <bagnara@cs.unipr.it> - 0.10.2-7
+- Force rebuild.
+
 * Tue Aug 11 2009 Ville Skyttä <ville.skytta@iki.fi> - 0.10.2-6
 - Use bzipped upstream tarball.
 
