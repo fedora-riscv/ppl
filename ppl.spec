@@ -2,7 +2,7 @@
 
 Name:           ppl
 Version:        0.10.2
-Release:        9%{?dist}
+Release:        10%{?dist}
 
 Summary:        The Parma Polyhedra Library: a library of numerical abstractions
 Group:          Development/Libraries
@@ -210,6 +210,7 @@ CPPFLAGS="-I%{_includedir}/glpk"
 CPPFLAGS="$CPPFLAGS -I%{_libdir}/gprolog-`gprolog --version 2>&1 | head -1 | sed -e "s/.* \([^ ]*\)$/\1/g"`/include"
 %endif
 %ifnarch sparc64 sparcv9
+CPPFLAGS="$CPPFLAGS -I`pl -dump-runtime-variables | grep PLBASE= | sed 's/PLBASE="\(.*\)";/\1/'`/include"
 CPPFLAGS="$CPPFLAGS -I%{_includedir}/Yap"
 %endif
 %configure --docdir=%{_datadir}/doc/%{name}-%{version} --enable-shared --disable-rpath --enable-interfaces="c++ c gnu_prolog swi_prolog yap_prolog java" CPPFLAGS="$CPPFLAGS"
@@ -416,6 +417,10 @@ mv \
 rm -rf %{buildroot}
 
 %changelog
+* Fri Sep 11 2009 Caolán McNamara <caolanm@redhat.com> - 0.10.2-10
+- Resolves: rhbz#521588 stick pl include before Yap include to stop 
+  configure-time misdetection to resolve FTBFS
+
 * Wed Aug 19 2009 Roberto Bagnara <bagnara@cs.unipr.it> - 0.10.2-9
 - Force rebuild.
 
