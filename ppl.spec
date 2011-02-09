@@ -2,7 +2,7 @@
 
 Name:           ppl
 Version:        0.10.2
-Release:        10%{?dist}
+Release:        11%{?dist}
 
 Summary:        The Parma Polyhedra Library: a library of numerical abstractions
 Group:          Development/Libraries
@@ -417,6 +417,9 @@ mv \
 rm -rf %{buildroot}
 
 %changelog
+* Wed Feb 09 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.10.2-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
 * Fri Sep 11 2009 Caolán McNamara <caolanm@redhat.com> - 0.10.2-10
 - Resolves: rhbz#521588 stick pl include before Yap include to stop 
   configure-time misdetection to resolve FTBFS
