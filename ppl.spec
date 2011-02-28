@@ -87,7 +87,7 @@ of the Parma Polyhedra Library.
 %package swiprolog
 Summary:        The SWI-Prolog interface of the Parma Polyhedra Library
 Group:          Development/Libraries
-BuildRequires:  pl-devel >= 5.6.57-2
+BuildRequires:  pl >= 5.6.57-2, pl-devel >= 5.6.57-2
 Requires:       %{name} = %{version}-%{release}, %{name}-pwl = %{version}-%{release}, pl >= 5.6.57-2
 %description swiprolog
 This package adds SWI-Prolog support to the Parma Polyhedra Library.
@@ -96,7 +96,7 @@ Install this package if you want to use the library in SWI-Prolog programs.
 %package swiprolog-static
 Summary:        The static archive for the SWI-Prolog interface of the Parma Polyhedra Library
 Group:          Development/Libraries
-BuildRequires:  pl-devel >= 5.6.57-2, pl-static >= 5.6.57-2
+BuildRequires:  pl >= 5.6.57-2, pl-devel >= 5.6.57-2, pl-static >= 5.6.57-2
 Requires:       %{name}-swiprolog = %{version}-%{release}
 %description swiprolog-static
 This package contains the static archive for the SWI-Prolog interface
