@@ -57,8 +57,9 @@ Group:          Development/Libraries
 Requires:       %{name} = %{version}-%{release}
 BuildRequires:  glpk-devel >= 4.13
 %description utils
-This package contains the mixed integer linear programming solver ppl_lpsol
-and the program ppl_lcdd for vertex/facet enumeration of convex polyhedra.
+This package contains the mixed integer linear programming solver ppl_lpsol.
+the program ppl_lcdd for vertex/facet enumeration of convex polyhedra,
+and the parametric integer programming solver ppl_pips.
 
 %ifnarch ia64 ppc64 s390 s390x sparc64 sparcv9
 %package gprolog
@@ -295,8 +296,10 @@ mv \
 %defattr(-,root,root,-)
 %{_bindir}/ppl_lcdd
 %{_bindir}/ppl_lpsol
+%{_bindir}/ppl_pips
 %{_mandir}/man1/ppl_lcdd.1.gz
 %{_mandir}/man1/ppl_lpsol.1.gz
+%{_mandir}/man1/ppl_pips.1.gz
 
 %ifnarch ia64 ppc64 s390 s390x sparc64 sparcv9
 %files gprolog
