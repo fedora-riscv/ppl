@@ -87,8 +87,8 @@ of the Parma Polyhedra Library.
 %package swiprolog
 Summary:        The SWI-Prolog interface of the Parma Polyhedra Library
 Group:          Development/Libraries
-BuildRequires:  pl >= 5.6.57-2, pl-devel >= 5.6.57-2
-Requires:       %{name} = %{version}-%{release}, %{name}-pwl = %{version}-%{release}, pl >= 5.6.57-2
+BuildRequires:  pl >= 5.10.2-3, pl-devel >= 5.10.2-3
+Requires:       %{name} = %{version}-%{release}, %{name}-pwl = %{version}-%{release}, pl >= 5.10.2-3
 %description swiprolog
 This package adds SWI-Prolog support to the Parma Polyhedra Library.
 Install this package if you want to use the library in SWI-Prolog programs.
@@ -96,7 +96,7 @@ Install this package if you want to use the library in SWI-Prolog programs.
 %package swiprolog-static
 Summary:        The static archive for the SWI-Prolog interface of the Parma Polyhedra Library
 Group:          Development/Libraries
-BuildRequires:  pl >= 5.6.57-2, pl-devel >= 5.6.57-2, pl-static >= 5.6.57-2
+BuildRequires:  pl >= 5.10.2-3, pl-devel >= 5.10.2-3, pl-static >= 5.10.2-3
 Requires:       %{name}-swiprolog = %{version}-%{release}
 %description swiprolog-static
 This package contains the static archive for the SWI-Prolog interface
@@ -211,7 +211,7 @@ CPPFLAGS="-I%{_includedir}/glpk"
 CPPFLAGS="$CPPFLAGS -I%{_libdir}/gprolog-`gprolog --version 2>&1 | head -1 | sed -e "s/.* \([^ ]*\)$/\1/g"`/include"
 %endif
 %ifnarch sparc64 sparcv9
-CPPFLAGS="$CPPFLAGS -I`pl -dump-runtime-variables | grep PLBASE= | sed 's/PLBASE="\(.*\)";/\1/'`/include"
+CPPFLAGS="$CPPFLAGS -I`swipl -dump-runtime-variables | grep PLBASE= | sed 's/PLBASE="\(.*\)";/\1/'`/include"
 CPPFLAGS="$CPPFLAGS -I%{_includedir}/Yap"
 %endif
 %configure --docdir=%{_datadir}/doc/%{name}-%{version} --enable-shared --disable-rpath --enable-interfaces="c++ c gnu_prolog swi_prolog yap_prolog java" CPPFLAGS="$CPPFLAGS"
