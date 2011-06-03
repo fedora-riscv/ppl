@@ -2,7 +2,7 @@
 
 Name:           ppl
 Version:        0.10.2
-Release:        10%{?dist}
+Release:        11%{?dist}
 
 Summary:        The Parma Polyhedra Library: a library of numerical abstractions
 Group:          Development/Libraries
@@ -60,7 +60,7 @@ BuildRequires:  glpk-devel >= 4.13
 This package contains the mixed integer linear programming solver ppl_lpsol
 and the program ppl_lcdd for vertex/facet enumeration of convex polyhedra.
 
-%ifnarch ia64 ppc64 s390 s390x sparc64 sparcv9
+%ifnarch ia64 ppc64 s390 s390x sparc64 sparcv9 %{arm}
 %package gprolog
 # The `gprolog' package is not available on ppc64:
 # the GNU Prolog interface must thus be disabled for that architecture.
@@ -73,7 +73,7 @@ This package adds GNU Prolog support to the Parma Polyhedra Library (PPL).
 Install this package if you want to use the library in GNU Prolog programs.
 %endif
 
-%ifnarch ia64 ppc64 s390 s390x sparc64 sparcv9
+%ifnarch ia64 ppc64 s390 s390x sparc64 sparcv9 %{arm}
 %package gprolog-static
 Summary:        The static archive for the GNU Prolog interface of the Parma Polyhedra Library
 Group:          Development/Libraries
@@ -101,7 +101,7 @@ Requires:       %{name}-swiprolog = %{version}-%{release}
 This package contains the static archive for the SWI-Prolog interface
 of the Parma Polyhedra Library.
 
-%ifnarch sparc64 sparcv9
+%ifnarch sparc64 sparcv9 %{arm}
 %package yap
 Summary:        The YAP Prolog interface of the Parma Polyhedra Library
 Group:          Development/Libraries
@@ -206,10 +206,10 @@ Install this package if you want to program with the PWL.
 
 %build
 CPPFLAGS="-I%{_includedir}/glpk"
-%ifnarch ia64 ppc64 s390 s390x sparc64 sparcv9
+%ifnarch ia64 ppc64 s390 s390x sparc64 sparcv9 %{arm}
 CPPFLAGS="$CPPFLAGS -I%{_libdir}/gprolog-`gprolog --version 2>&1 | head -1 | sed -e "s/.* \([^ ]*\)$/\1/g"`/include"
 %endif
-%ifnarch sparc64 sparcv9
+%ifnarch sparc64 sparcv9 %{arm}
 CPPFLAGS="$CPPFLAGS -I`pl -dump-runtime-variables | grep PLBASE= | sed 's/PLBASE="\(.*\)";/\1/'`/include"
 CPPFLAGS="$CPPFLAGS -I%{_includedir}/Yap"
 %endif
@@ -298,7 +298,7 @@ mv \
 %{_mandir}/man1/ppl_lcdd.1.gz
 %{_mandir}/man1/ppl_lpsol.1.gz
 
-%ifnarch ia64 ppc64 s390 s390x sparc64 sparcv9
+%ifnarch ia64 ppc64 s390 s390x sparc64 sparcv9 %{arm}
 %files gprolog
 %defattr(-,root,root,-)
 %doc interfaces/Prolog/GNU/README.gprolog
@@ -307,7 +307,7 @@ mv \
 %{_libdir}/%{name}/libppl_gprolog.so
 %endif
 
-%ifnarch ia64 ppc64 s390 s390x sparc64 sparcv9
+%ifnarch ia64 ppc64 s390 s390x sparc64 sparcv9 %{arm}
 %files gprolog-static
 %defattr(-,root,root,-)
 %{_libdir}/%{name}/libppl_gprolog.a
@@ -324,7 +324,7 @@ mv \
 %defattr(-,root,root,-)
 %{_libdir}/%{name}/libppl_swiprolog.a
 
-%ifnarch sparc64 sparcv9
+%ifnarch sparc64 sparcv9 %{arm}
 %files yap
 %defattr(-,root,root,-)
 %doc interfaces/Prolog/YAP/README.yap
@@ -417,6 +417,9 @@ mv \
 rm -rf %{buildroot}
 
 %changelog
+* Fri Jun 03 2011 Paul Whalen <paul.whalen@senecac.on.ca> - 0.10.2-11
+- add arm to conditionals, do not build with gprolog and yap.
+
 * Fri Sep 11 2009 Caolán McNamara <caolanm@redhat.com> - 0.10.2-10
 - Resolves: rhbz#521588 stick pl include before Yap include to stop 
   configure-time misdetection to resolve FTBFS
