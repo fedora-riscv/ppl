@@ -2,7 +2,7 @@
 
 Name:           ppl
 Version:        0.11.2
-Release:        2%{?dist}
+Release:        2%{?dist}.1
 
 Summary:        The Parma Polyhedra Library: a library of numerical abstractions
 Group:          Development/Libraries
@@ -420,6 +420,9 @@ mv \
 rm -rf %{buildroot}
 
 %changelog
+* Wed Oct 12 2011 Peter Schiffer <pschiffe@redhat.com> - 0.11.2-2.1
+- rebuild with new gmp
+
 * Tue May 31 2011 Peter Robinson <pbrobinson@gmail.com> - 0.11.2-2
 - Merge 15 Branch to master as its newer
 - Add ARM to platform excludes
