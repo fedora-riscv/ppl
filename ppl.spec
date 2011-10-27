@@ -2,7 +2,7 @@
 
 Name:           ppl
 Version:        0.11.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 
 Summary:        The Parma Polyhedra Library: a library of numerical abstractions
 Group:          Development/Libraries
@@ -420,6 +420,9 @@ mv \
 rm -rf %{buildroot}
 
 %changelog
+* Wed Oct 26 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.11.2-3
+- Rebuilt for glibc bug#747377
+
 * Tue May 31 2011 Peter Robinson <pbrobinson@gmail.com> - 0.11.2-2
 - Merge 15 Branch to master as its newer
 - Add ARM to platform excludes
