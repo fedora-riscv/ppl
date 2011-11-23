@@ -2,7 +2,7 @@
 
 Name:           ppl
 Version:        0.11.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 
 Summary:        The Parma Polyhedra Library: a library of numerical abstractions
 Group:          Development/Libraries
@@ -388,6 +388,7 @@ mv \
 %doc %{_datadir}/doc/%{name}-%{version}/pwl/README
 %doc %{_datadir}/doc/%{name}-%{version}/pwl/gpl.txt
 %{_libdir}/libpwl.so.*
+%dir %{_datadir}/doc/%{name}-%{version}
 %dir %{_datadir}/doc/%{name}-%{version}/pwl
 
 %files pwl-devel
@@ -420,6 +421,9 @@ mv \
 rm -rf %{buildroot}
 
 %changelog
+* Wed Nov 23 2011 Ville Skyttä <ville.skytta@iki.fi> - 0.11.2-5
+- Own doc dir in -pwl.
+
 * Tue Nov 01 2011 Kevin Fenzi <kevin@scrye.com> - 0.11.2-4
 - Rebuild for new gmp
 
