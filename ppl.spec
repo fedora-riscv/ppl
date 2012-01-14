@@ -2,7 +2,7 @@
 
 Name:           ppl
 Version:        0.11.2
-Release:        5%{?dist}
+Release:        6%{?dist}
 
 Summary:        The Parma Polyhedra Library: a library of numerical abstractions
 Group:          Development/Libraries
@@ -421,6 +421,9 @@ mv \
 rm -rf %{buildroot}
 
 %changelog
+* Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.11.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
 * Wed Nov 23 2011 Ville Skyttä <ville.skytta@iki.fi> - 0.11.2-5
 - Own doc dir in -pwl.
 
