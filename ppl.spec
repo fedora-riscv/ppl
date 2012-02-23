@@ -2,7 +2,7 @@
 
 Name:           ppl
 Version:        0.11.2
-Release:        6%{?dist}
+Release:        7%{?dist}
 
 Summary:        The Parma Polyhedra Library: a library of numerical abstractions
 Group:          Development/Libraries
@@ -102,7 +102,7 @@ Requires:       %{name}-swiprolog = %{version}-%{release}
 This package contains the static archive for the SWI-Prolog interface
 of the Parma Polyhedra Library.
 
-%ifnarch sparc64 sparcv9 %{arm}
+%ifnarch sparc64 sparcv9 %{arm} ppc ppc64
 %package yap
 Summary:        The YAP Prolog interface of the Parma Polyhedra Library
 Group:          Development/Libraries
@@ -210,7 +210,7 @@ CPPFLAGS="-I%{_includedir}/glpk"
 %ifnarch ia64 ppc64 s390 s390x sparc64 sparcv9 %{arm}
 CPPFLAGS="$CPPFLAGS -I%{_libdir}/gprolog-`gprolog --version 2>&1 | head -1 | sed -e "s/.* \([^ ]*\)$/\1/g"`/include"
 %endif
-%ifnarch sparc64 sparcv9 %{arm}
+%ifnarch sparc64 sparcv9 %{arm} ppc ppc64
 CPPFLAGS="$CPPFLAGS -I`swipl -dump-runtime-variables | grep PLBASE= | sed 's/PLBASE="\(.*\)";/\1/'`/include"
 CPPFLAGS="$CPPFLAGS -I%{_includedir}/Yap"
 %endif
@@ -327,7 +327,7 @@ mv \
 %defattr(-,root,root,-)
 %{_libdir}/%{name}/libppl_swiprolog.a
 
-%ifnarch sparc64 sparcv9 %{arm}
+%ifnarch sparc64 sparcv9 %{arm} ppc ppc64
 %files yap
 %defattr(-,root,root,-)
 %doc interfaces/Prolog/YAP/README.yap
@@ -421,6 +421,9 @@ mv \
 rm -rf %{buildroot}
 
 %changelog
+* Thu Feb 23 2012 Karsten Hopp <karsten@redhat.com> 0.11.2-7
+- don't require yap on ppc and ppc64, it is broken there: bz 790625
+
 * Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.11.2-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
