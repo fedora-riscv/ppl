@@ -2,7 +2,7 @@
 
 Name:           ppl
 Version:        0.11.2
-Release:        7%{?dist}
+Release:        8%{?dist}
 
 Summary:        The Parma Polyhedra Library: a library of numerical abstractions
 Group:          Development/Libraries
@@ -421,6 +421,9 @@ mv \
 rm -rf %{buildroot}
 
 %changelog
+* Tue Feb 28 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.11.2-8
+- Rebuilt for c++ ABI breakage
+
 * Thu Feb 23 2012 Karsten Hopp <karsten@redhat.com> 0.11.2-7
 - don't require yap on ppc and ppc64, it is broken there: bz 790625
 
