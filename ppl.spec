@@ -2,7 +2,7 @@
 
 Name:           ppl
 Version:        0.11.2
-Release:        8%{?dist}
+Release:        9%{?dist}
 
 Summary:        The Parma Polyhedra Library: a library of numerical abstractions
 Group:          Development/Libraries
@@ -61,7 +61,8 @@ This package contains the mixed integer linear programming solver ppl_lpsol.
 the program ppl_lcdd for vertex/facet enumeration of convex polyhedra,
 and the parametric integer programming solver ppl_pips.
 
-%ifnarch ia64 ppc64 s390 s390x sparc64 sparcv9 %{arm}
+# This is the explicit list of arches gprolog supports
+%ifarch x86_64 %{ix86} ppc alpha
 %package gprolog
 # The `gprolog' package is not available on ppc64:
 # the GNU Prolog interface must thus be disabled for that architecture.
@@ -74,7 +75,8 @@ This package adds GNU Prolog support to the Parma Polyhedra Library (PPL).
 Install this package if you want to use the library in GNU Prolog programs.
 %endif
 
-%ifnarch ia64 ppc64 s390 s390x sparc64 sparcv9 %{arm}
+# This is the explicit list of arches gprolog supports
+%ifarch x86_64 %{ix86} ppc alpha
 %package gprolog-static
 Summary:        The static archive for the GNU Prolog interface of the Parma Polyhedra Library
 Group:          Development/Libraries
@@ -207,7 +209,8 @@ Install this package if you want to program with the PWL.
 
 %build
 CPPFLAGS="-I%{_includedir}/glpk"
-%ifnarch ia64 ppc64 s390 s390x sparc64 sparcv9 %{arm}
+# This is the explicit list of arches gprolog supports
+%ifarch x86_64 %{ix86} ppc alpha
 CPPFLAGS="$CPPFLAGS -I%{_libdir}/gprolog-`gprolog --version 2>&1 | head -1 | sed -e "s/.* \([^ ]*\)$/\1/g"`/include"
 %endif
 %ifnarch sparc64 sparcv9 %{arm} ppc ppc64
@@ -310,7 +313,8 @@ mv \
 %{_libdir}/%{name}/libppl_gprolog.so
 %endif
 
-%ifnarch ia64 ppc64 s390 s390x sparc64 sparcv9 %{arm}
+# This is the explicit list of arches gprolog supports
+%ifarch x86_64 %{ix86} ppc alpha
 %files gprolog-static
 %defattr(-,root,root,-)
 %{_libdir}/%{name}/libppl_gprolog.a
@@ -421,6 +425,9 @@ mv \
 rm -rf %{buildroot}
 
 %changelog
+* Tue Mar  6 2012 Peter Robinson <pbrobinson@fedoraproject.org> - 0.11.2-9
+- Explicitly include supported gprolog arches
+
 * Tue Feb 28 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.11.2-8
 - Rebuilt for c++ ABI breakage
 
