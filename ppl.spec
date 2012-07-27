@@ -2,7 +2,7 @@
 
 Name:           ppl
 Version:        0.11.2
-Release:        9%{?dist}
+Release:        10%{?dist}
 
 Summary:        The Parma Polyhedra Library: a library of numerical abstractions
 Group:          Development/Libraries
@@ -425,6 +425,9 @@ mv \
 rm -rf %{buildroot}
 
 %changelog
+* Fri Jul 27 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.11.2-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
 * Tue Mar  6 2012 Peter Robinson <pbrobinson@fedoraproject.org> - 0.11.2-9
 - Explicitly include supported gprolog arches
 
