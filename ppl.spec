@@ -1,6 +1,6 @@
 Name:			ppl
 Version:		1.0
-Release:		2%{?dist}
+Release:		3%{?dist}
 Summary:		The Parma Polyhedra Library: a library of numerical abstractions
 Group:			Development/Libraries
 License:		GPLv3+
@@ -14,13 +14,6 @@ Requires(postun):	/sbin/ldconfig
 Provides:		ppl-pwl = %{version}-%{release}
 Obsoletes:		ppl-pwl <= 0.11.2-11
 BuildRequires:		gmp-devel >= 4.1.3, m4 >= 1.4.8
-# This is a lie and a hack, but we need this to get the build far enough to do cloog.
-# It will go away as soon as that is done.
-%ifarch x86_64
-Provides:		libppl.so.9()(64bit)
-%else
-Provides:		libppl.so.9
-%endif
 
 %description
 The Parma Polyhedra Library (PPL) is a library for the manipulation of
@@ -305,6 +298,9 @@ mv \
 %postun -p /sbin/ldconfig
 
 %changelog
+* Mon Dec  3 2012 Tom Callaway <spot@fedoraproject.org> - 1.0-3
+- undo ugly hack
+
 * Mon Dec  3 2012 Tom Callaway <spot@fedoraproject.org> - 1.0-2
 - ignore this ugly hack, it is going away asap
 
