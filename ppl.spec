@@ -1,6 +1,6 @@
 Name:			ppl
 Version:		1.0
-Release:		3%{?dist}.1
+Release:		3%{?dist}.2
 Summary:		The Parma Polyhedra Library: a library of numerical abstractions
 Group:			Development/Libraries
 License:		GPLv3+
@@ -15,7 +15,7 @@ Provides:		ppl-pwl = %{version}-%{release}
 Obsoletes:		ppl-pwl <= 0.11.2-11
 BuildRequires:		gmp-devel >= 4.1.3, m4 >= 1.4.8
 # Hack
-%ifarch x86_64
+%if %{_lib} == lib64
 Provides:		libppl.so.9()(64bit)
 %else
 Provides:		libppl.so.9
@@ -304,6 +304,9 @@ mv \
 %postun -p /sbin/ldconfig
 
 %changelog
+* Wed Dec  5 2012 Dan Horák <dan[at]danny.cz> - 1.0-3.2
+- fix the hack for all 64-bit platforms
+
 * Tue Dec  4 2012 Tom Callaway <spot@fedoraproject.org> - 1.0-3.1
 - bring ugly hack back long enough to rebuild mingw
 
