@@ -1,6 +1,6 @@
 Name:			ppl
 Version:		1.0
-Release:		3%{?dist}.2
+Release:		3%{?dist}.3
 Summary:		The Parma Polyhedra Library: a library of numerical abstractions
 Group:			Development/Libraries
 License:		GPLv3+
@@ -304,6 +304,9 @@ mv \
 %postun -p /sbin/ldconfig
 
 %changelog
+* Wed Dec 26 2012 Kevin Fenzi <kevin@scrye.com> 1.0-3.3
+- Rebuild for new libswipl
+
 * Wed Dec  5 2012 Dan Horák <dan[at]danny.cz> - 1.0-3.2
 - fix the hack for all 64-bit platforms
 
