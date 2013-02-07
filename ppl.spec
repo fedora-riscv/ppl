@@ -1,6 +1,6 @@
 Name:			ppl
 Version:		1.0
-Release:		3%{?dist}.3
+Release:		3%{?dist}.5
 Summary:		The Parma Polyhedra Library: a library of numerical abstractions
 Group:			Development/Libraries
 License:		GPLv3+
@@ -20,6 +20,7 @@ Provides:		libppl.so.9()(64bit)
 %else
 Provides:		libppl.so.9
 %endif
+Patch0:			%{name}-gmp-5.1.0.patch
 
 %description
 The Parma Polyhedra Library (PPL) is a library for the manipulation of
@@ -125,8 +126,8 @@ Install this package if you want to use the library in YAP Prolog programs.
 Summary:	The Java interface of the Parma Polyhedra Library
 BuildRequires:	java-devel >= 1:1.6.0
 BuildRequires:	jpackage-utils
-Requires:	java%{?_isa} >= 1:1.6.0
-Requires:	jpackage-utils%{?_isa}
+Requires:	java >= 1:1.6.0
+Requires:	jpackage-utils
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 
 %description java
@@ -136,7 +137,7 @@ Install this package if you want to use the library in Java programs.
 %package java-javadoc
 Summary:	Javadocs for %{name}-java
 Requires:	%{name}-java%{?_isa} = %{version}-%{release}
-Requires:	jpackage-utils%{?_isa}
+Requires:	jpackage-utils
 
 %description java-javadoc
 This package contains the API documentation for Java interface
@@ -153,6 +154,7 @@ Install this package if you want to program with the PPL.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 CPPFLAGS="-I%{_includedir}/glpk"
@@ -304,6 +306,15 @@ mv \
 %postun -p /sbin/ldconfig
 
 %changelog
+* Thu Feb  7 2013 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> - 1.0-3.5
+- The gmp patch itself is conditional, no need to conditionally apply
+- Correct jpackage-utils requires as it is noarch
+- Correct java requires as the virtual provides in noarch
+- Rebuild for newer swiprolog and glpk (#907477, #905420)
+
+* Wed Jan 30 2013 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> - 1.0-3.4
+- Correct problem with gmp 5.1.0 or newer (#905420)
+
 * Wed Dec 26 2012 Kevin Fenzi <kevin@scrye.com> 1.0-3.3
 - Rebuild for new libswipl
 
