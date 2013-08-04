@@ -1,6 +1,6 @@
 Name:			ppl
 Version:		1.0
-Release:		3%{?dist}.5
+Release:		4%{?dist}.5
 Summary:		The Parma Polyhedra Library: a library of numerical abstractions
 Group:			Development/Libraries
 License:		GPLv3+
@@ -306,6 +306,9 @@ mv \
 %postun -p /sbin/ldconfig
 
 %changelog
+* Sun Aug 04 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0-4.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+
 * Thu Feb  7 2013 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> - 1.0-3.5
 - The gmp patch itself is conditional, no need to conditionally apply
 - Correct jpackage-utils requires as it is noarch
