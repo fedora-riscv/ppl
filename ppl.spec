@@ -20,7 +20,9 @@ Provides:		libppl.so.9()(64bit)
 %else
 Provides:		libppl.so.9
 %endif
+# Both patches backported from http://www.cs.unipr.it/git/?p=ppl/ppl.git
 Patch0:			%{name}-gmp-5.1.0.patch
+Patch1:			%{name}-glpk-4.52.patch
 
 %description
 The Parma Polyhedra Library (PPL) is a library for the manipulation of
@@ -155,6 +157,7 @@ Install this package if you want to program with the PPL.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 CPPFLAGS="-I%{_includedir}/glpk"
