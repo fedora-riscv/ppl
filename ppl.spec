@@ -245,7 +245,7 @@ mv \
 %{_mandir}/man1/ppl_lpsol.1.gz
 %{_mandir}/man1/ppl_pips.1.gz
 
-%ifnarch ia64 ppc64 s390 s390x sparc64 sparcv9 %{arm}
+%ifarch x86_64 %{ix86} ppc alpha
 %files gprolog
 %doc interfaces/Prolog/GNU/README.gprolog
 %{_bindir}/ppl_gprolog
