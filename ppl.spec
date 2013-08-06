@@ -1,6 +1,6 @@
 Name:			ppl
 Version:		1.0
-Release:		4%{?dist}.5
+Release:		4%{?dist}.6
 Summary:		The Parma Polyhedra Library: a library of numerical abstractions
 Group:			Development/Libraries
 License:		GPLv3+
@@ -166,7 +166,7 @@ CPPFLAGS="$CPPFLAGS -I%{_libdir}/gprolog-`gprolog --version 2>&1 | head -1 | sed
 CPPFLAGS="$CPPFLAGS -I`swipl -dump-runtime-variables | grep PLBASE= | sed 's/PLBASE="\(.*\)";/\1/'`/include"
 CPPFLAGS="$CPPFLAGS -I%{_includedir}/Yap"
 %endif
-%configure --docdir=%{_datadir}/doc/%{name}-%{version} --enable-shared --disable-rpath --enable-interfaces="c++ c gnu_prolog swi_prolog yap_prolog java" CPPFLAGS="$CPPFLAGS"
+%configure --docdir=%{_datadir}/doc/%{name} --enable-shared --disable-rpath --enable-interfaces="c++ c gnu_prolog swi_prolog yap_prolog java" CPPFLAGS="$CPPFLAGS"
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 make %{?_smp_mflags}
@@ -203,24 +203,24 @@ install -m644 %{SOURCE2} %{buildroot}/%{_includedir}/ppl_c.h
 # Install the Javadocs for ppl-java.
 mkdir -p %{buildroot}%{_javadocdir}
 mv \
-%{buildroot}/%{_datadir}/doc/%{name}-%{version}/ppl-user-java-interface-%{version}-html \
+%{buildroot}/%{_datadir}/doc/%{name}/ppl-user-java-interface-%{version}-html \
 %{buildroot}%{_javadocdir}/%{name}-java
 
 %files
-%doc %{_datadir}/doc/%{name}-%{version}/BUGS
-%doc %{_datadir}/doc/%{name}-%{version}/COPYING
-%doc %{_datadir}/doc/%{name}-%{version}/CREDITS
-%doc %{_datadir}/doc/%{name}-%{version}/NEWS
-%doc %{_datadir}/doc/%{name}-%{version}/README
-%doc %{_datadir}/doc/%{name}-%{version}/README.configure
-%doc %{_datadir}/doc/%{name}-%{version}/TODO
-%doc %{_datadir}/doc/%{name}-%{version}/gpl.txt
+%doc %{_datadir}/doc/%{name}/BUGS
+%doc %{_datadir}/doc/%{name}/COPYING
+%doc %{_datadir}/doc/%{name}/CREDITS
+%doc %{_datadir}/doc/%{name}/NEWS
+%doc %{_datadir}/doc/%{name}/README
+%doc %{_datadir}/doc/%{name}/README.configure
+%doc %{_datadir}/doc/%{name}/TODO
+%doc %{_datadir}/doc/%{name}/gpl.txt
 %{_libdir}/libppl.so.*
 %{_libdir}/libppl_c.so.*
 %{_bindir}/ppl-config
 %{_mandir}/man1/ppl-config.1.gz
 %dir %{_libdir}/%{name}
-%dir %{_datadir}/doc/%{name}-%{version}
+%dir %{_datadir}/doc/%{name}
 %dir %{_datadir}/ppl/
 
 %files devel
@@ -285,27 +285,31 @@ mv \
 %{_javadocdir}/%{name}-java
 
 %files docs
-%doc %{_datadir}/doc/%{name}-%{version}/ChangeLog*
-%doc %{_datadir}/doc/%{name}-%{version}/README.doc
-%doc %{_datadir}/doc/%{name}-%{version}/fdl.*
-%doc %{_datadir}/doc/%{name}-%{version}/gpl.pdf
-%doc %{_datadir}/doc/%{name}-%{version}/gpl.ps.gz
-%doc %{_datadir}/doc/%{name}-%{version}/ppl-user-%{version}-html/
-%doc %{_datadir}/doc/%{name}-%{version}/ppl-user-c-interface-%{version}-html/
-%doc %{_datadir}/doc/%{name}-%{version}/ppl-user-prolog-interface-%{version}-html/
-%doc %{_datadir}/doc/%{name}-%{version}/ppl-user-%{version}.pdf
-%doc %{_datadir}/doc/%{name}-%{version}/ppl-user-c-interface-%{version}.pdf
-%doc %{_datadir}/doc/%{name}-%{version}/ppl-user-java-interface-%{version}.pdf
-%doc %{_datadir}/doc/%{name}-%{version}/ppl-user-prolog-interface-%{version}.pdf
-%doc %{_datadir}/doc/%{name}-%{version}/ppl-user-%{version}.ps.gz
-%doc %{_datadir}/doc/%{name}-%{version}/ppl-user-c-interface-%{version}.ps.gz
-%doc %{_datadir}/doc/%{name}-%{version}/ppl-user-java-interface-%{version}.ps.gz
-%doc %{_datadir}/doc/%{name}-%{version}/ppl-user-prolog-interface-%{version}.ps.gz
+%doc %{_datadir}/doc/%{name}/ChangeLog*
+%doc %{_datadir}/doc/%{name}/README.doc
+%doc %{_datadir}/doc/%{name}/fdl.*
+%doc %{_datadir}/doc/%{name}/gpl.pdf
+%doc %{_datadir}/doc/%{name}/gpl.ps.gz
+%doc %{_datadir}/doc/%{name}/ppl-user-%{version}-html/
+%doc %{_datadir}/doc/%{name}/ppl-user-c-interface-%{version}-html/
+%doc %{_datadir}/doc/%{name}/ppl-user-prolog-interface-%{version}-html/
+%doc %{_datadir}/doc/%{name}/ppl-user-%{version}.pdf
+%doc %{_datadir}/doc/%{name}/ppl-user-c-interface-%{version}.pdf
+%doc %{_datadir}/doc/%{name}/ppl-user-java-interface-%{version}.pdf
+%doc %{_datadir}/doc/%{name}/ppl-user-prolog-interface-%{version}.pdf
+%doc %{_datadir}/doc/%{name}/ppl-user-%{version}.ps.gz
+%doc %{_datadir}/doc/%{name}/ppl-user-c-interface-%{version}.ps.gz
+%doc %{_datadir}/doc/%{name}/ppl-user-java-interface-%{version}.ps.gz
+%doc %{_datadir}/doc/%{name}/ppl-user-prolog-interface-%{version}.ps.gz
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
 %changelog
+* Tue Aug  6 2013 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> - 1.0-4.6
+- Rebuild with newer glpk
+- Adapt to unversioned docdir (#994050)
+
 * Sun Aug 04 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0-4.5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
