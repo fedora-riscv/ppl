@@ -1,6 +1,6 @@
 Name:			ppl
 Version:		1.0
-Release:		4%{?dist}.10
+Release:		5%{?dist}.10
 Summary:		The Parma Polyhedra Library: a library of numerical abstractions
 Group:			Development/Libraries
 License:		GPLv3+
@@ -128,7 +128,7 @@ Install this package if you want to use the library in YAP Prolog programs.
 Summary:	The Java interface of the Parma Polyhedra Library
 BuildRequires:	java-devel >= 1:1.6.0
 BuildRequires:	jpackage-utils
-Requires:	java >= 1:1.6.0
+Requires:	java-headless >= 1:1.6.0
 Requires:	jpackage-utils
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 
@@ -309,6 +309,9 @@ mv \
 %postun -p /sbin/ldconfig
 
 %changelog
+* Fri Mar 28 2014 Michael Simacek <msimacek@redhat.com> - 1.0-5.10
+- Use Requires: java-headless rebuild (#1067528)
+
 * Thu Mar 13 2014 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> - 1.0-4.10
 - Rebuild with newer pl
 
