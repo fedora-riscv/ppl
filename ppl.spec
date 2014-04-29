@@ -1,6 +1,6 @@
 Name:			ppl
-Version:		1.0
-Release:		5%{?dist}.10
+Version:		1.1
+Release:		1%{?dist}
 Summary:		The Parma Polyhedra Library: a library of numerical abstractions
 Group:			Development/Libraries
 License:		GPLv3+
@@ -14,15 +14,7 @@ Requires(postun):	/sbin/ldconfig
 Provides:		ppl-pwl = %{version}-%{release}
 Obsoletes:		ppl-pwl <= 0.11.2-11
 BuildRequires:		gmp-devel >= 4.1.3, m4 >= 1.4.8
-# Hack
-%if %{_lib} == lib64
-Provides:		libppl.so.9()(64bit)
-%else
-Provides:		libppl.so.9
-%endif
-# Both patches backported from http://www.cs.unipr.it/git/?p=ppl/ppl.git
-Patch0:			%{name}-gmp-5.1.0.patch
-Patch1:			%{name}-glpk-4.52.patch
+Patch0:			%{name}-cstddef.patch
 
 %description
 The Parma Polyhedra Library (PPL) is a library for the manipulation of
@@ -157,7 +149,6 @@ Install this package if you want to program with the PPL.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 
 %build
 CPPFLAGS="-I%{_includedir}/glpk"
@@ -309,6 +300,13 @@ mv \
 %postun -p /sbin/ldconfig
 
 %changelog
+* Tue Apr 29 2014 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> - 1.1-1
+- Update to latest upstream release
+- Remove patches added upstream
+- Add new cstddef patch to build recent gcc
+- Correct bogus dates in chagelog
+- Remove hack with explicit provides of (wrong) library major
+
 * Fri Mar 28 2014 Michael Simacek <msimacek@redhat.com> - 1.0-5.10
 - Use Requires: java-headless rebuild (#1067528)
 
@@ -449,7 +447,7 @@ mv \
 * Wed Feb 18 2009 Roberto Bagnara <bagnara@cs.unipr.it> 0.10-8
 - Install the documentation according to the Fedora packaging conventions.
 
-* Wed Feb 17 2009 Karsten Hopp <karsten@redhat.comt> 0.10-7
+* Tue Feb 17 2009 Karsten Hopp <karsten@redhat.comt> 0.10-7
 - There are no GNU Prolog packages available on s390 and s390x: disable
   the GNU Prolog interface also on those platforms (besides ppc64).
 
@@ -464,13 +462,13 @@ mv \
 - Added `%%dir %%{_datadir}/doc/pwl' to the `%%files' section
   of the `ppl-pwl' package.
 
-* Thu Nov 04 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.10-3
+* Tue Nov 04 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.10-3
 - Fixed the requirements of the `ppl-java' package.
 
-* Thu Nov 04 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.10-2
+* Tue Nov 04 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.10-2
 - Added m4 >= 1.4.8 to build requirements.
 
-* Thu Nov 04 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.10-1
+* Tue Nov 04 2008 Roberto Bagnara <bagnara@cs.unipr.it> 0.10-1
 - Updated and extended for PPL 0.10.  In particular, the `ppl-config'
   program, being useful also for non-development activities, has been
   brought back to the main package.
