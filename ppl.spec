@@ -15,6 +15,7 @@ Provides:		ppl-pwl = %{version}-%{release}
 Obsoletes:		ppl-pwl <= 0.11.2-11
 BuildRequires:		gmp-devel >= 4.1.3, m4 >= 1.4.8
 Patch0:			%{name}-cstddef.patch
+Patch1:			%{name}-PlLong.patch
 
 %description
 The Parma Polyhedra Library (PPL) is a library for the manipulation of
@@ -149,6 +150,7 @@ Install this package if you want to program with the PPL.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 CPPFLAGS="-I%{_includedir}/glpk"
