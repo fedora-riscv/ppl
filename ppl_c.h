@@ -25,8 +25,12 @@ site: http://www.cs.unipr.it/ppl/ . */
 #include "ppl_c-x86_64.h"
 #elif defined(__i386__)
 #include "ppl_c-i386.h"
-#elif defined(__powerpc64__)
+#elif defined(__powerpc64__) 
+#if __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
 #include "ppl_c-ppc64.h"
+#else
+#include "ppl_c-ppc64le.h"
+#endif
 #elif defined(__powerpc__)
 #include "ppl_c-ppc.h"
 #elif defined(__ia64__)

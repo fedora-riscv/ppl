@@ -1,6 +1,6 @@
 Name:			ppl
 Version:		1.1
-Release:		2%{?dist}
+Release:		3%{?dist}
 Summary:		The Parma Polyhedra Library: a library of numerical abstractions
 Group:			Development/Libraries
 License:		GPLv3+
@@ -302,6 +302,9 @@ mv \
 %postun -p /sbin/ldconfig
 
 %changelog
+* Mon Jun 02 2014 Brent Baude <baude@us.ibm.com> - 1.1-3
+- Fixing include detection for ppc64 and ppc64le
+
 * Thu May 22 2014 Brent Baude <baude@us.ibm.com> - 1.1-2
 - Replace ppc64 arch with power64 macro
 

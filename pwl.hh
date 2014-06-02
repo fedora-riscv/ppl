@@ -26,7 +26,11 @@ site: http://www.cs.unipr.it/Software/ . */
 #elif defined(__i386__)
 #include "pwl-i386.hh"
 #elif defined(__powerpc64__)
+#if __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
 #include "pwl-ppc64.hh"
+#else
+#include "pwl-ppc64le.hh"
+#endif
 #elif defined(__powerpc__)
 #include "pwl-ppc.hh"
 #elif defined(__ia64__)
