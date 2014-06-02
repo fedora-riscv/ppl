@@ -1,6 +1,6 @@
 Name:			ppl
 Version:		1.1
-Release:		1%{?dist}
+Release:		2%{?dist}
 Summary:		The Parma Polyhedra Library: a library of numerical abstractions
 Group:			Development/Libraries
 License:		GPLv3+
@@ -105,7 +105,7 @@ Requires:	%{name}-swiprolog%{?_isa} = %{version}-%{release}
 This package contains the static archive for the SWI-Prolog interface
 of the Parma Polyhedra Library.
 
-%ifnarch sparc64 sparcv9 %{arm} ppc ppc64
+%ifnarch sparc64 sparcv9 %{arm} ppc %{power64}
 %package yap
 Summary:	The YAP Prolog interface of the Parma Polyhedra Library
 BuildRequires:	yap-devel >= 5.1.1
@@ -158,7 +158,7 @@ CPPFLAGS="-I%{_includedir}/glpk"
 %ifarch x86_64 %{ix86} ppc alpha
 CPPFLAGS="$CPPFLAGS -I%{_libdir}/gprolog-`gprolog --version 2>&1 | head -1 | sed -e "s/.* \([^ ]*\)$/\1/g"`/include"
 %endif
-%ifnarch sparc64 sparcv9 %{arm} ppc ppc64
+%ifnarch sparc64 sparcv9 %{arm} ppc %{power64}
 CPPFLAGS="$CPPFLAGS -I`swipl -dump-runtime-variables | grep PLBASE= | sed 's/PLBASE="\(.*\)";/\1/'`/include"
 CPPFLAGS="$CPPFLAGS -I%{_includedir}/Yap"
 %endif
@@ -265,7 +265,7 @@ mv \
 %files swiprolog-static
 %{_libdir}/%{name}/libppl_swiprolog.a
 
-%ifnarch sparc64 sparcv9 %{arm} ppc ppc64
+%ifnarch sparc64 sparcv9 %{arm} ppc %{power64}
 %files yap
 %doc interfaces/Prolog/YAP/README.yap
 %{_datadir}/%{name}/ppl_yap.pl
@@ -302,6 +302,9 @@ mv \
 %postun -p /sbin/ldconfig
 
 %changelog
+* Thu May 22 2014 Brent Baude <baude@us.ibm.com> - 1.1-2
+- Replace ppc64 arch with power64 macro
+
 * Tue Apr 29 2014 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> - 1.1-1
 - Update to latest upstream release
 - Remove patches added upstream
