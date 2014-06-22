@@ -39,6 +39,8 @@ site: http://www.cs.unipr.it/ppl/ . */
 #include "ppl-alpha.hh"
 #elif defined(__arm__)
 #include "ppl-arm.hh"
+#elif defined(__aarch64__)
+#include "ppl-aarch64.hh"
 #elif defined(__s390x__)
 #include "ppl-s390x.hh"
 #elif defined(__s390__)

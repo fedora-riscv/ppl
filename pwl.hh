@@ -39,6 +39,8 @@ site: http://www.cs.unipr.it/Software/ . */
 #include "pwl-alpha.hh"
 #elif defined(__arm__)
 #include "pwl-arm.hh"
+#elif defined(__aarch64__)
+#include "pwl-aarch64.hh"
 #elif defined(__s390x__)
 #include "pwl-s390x.hh"
 #elif defined(__s390__)
