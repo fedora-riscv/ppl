@@ -1,6 +1,6 @@
 Name:			ppl
 Version:		1.1
-Release:		6%{?dist}
+Release:		7%{?dist}
 Summary:		The Parma Polyhedra Library: a library of numerical abstractions
 Group:			Development/Libraries
 License:		GPLv3+
@@ -16,6 +16,7 @@ Obsoletes:		ppl-pwl <= 0.11.2-11
 BuildRequires:		gmp-devel >= 4.1.3, m4 >= 1.4.8
 Patch0:			%{name}-cstddef.patch
 Patch1:			%{name}-PlLong.patch
+Patch2:			%{name}-gcc5.patch
 
 %description
 The Parma Polyhedra Library (PPL) is a library for the manipulation of
@@ -151,6 +152,7 @@ Install this package if you want to program with the PPL.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 CPPFLAGS="-I%{_includedir}/glpk"
@@ -302,6 +304,9 @@ mv \
 %postun -p /sbin/ldconfig
 
 %changelog
+* Sun Feb  8 2015 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> - 1.1-7
+- Correct build with gcc 5.0.
+
 * Sun Aug 17 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.1-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
