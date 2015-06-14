@@ -306,7 +306,7 @@ mv \
 %postun -p /sbin/ldconfig
 
 %changelog
-* Tue Apr 29 2014 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> - 1.1-9
+* Sun Jun 14 2015 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> - 1.1-9
 - Rebuild with newer pl
 
 * Sat May 02 2015 Kalev Lember <kalevlember@gmail.com> - 1.1-8
