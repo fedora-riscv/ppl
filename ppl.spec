@@ -1,6 +1,6 @@
 Name:			ppl
 Version:		1.1
-Release:		8%{?dist}
+Release:		9%{?dist}
 Summary:		The Parma Polyhedra Library: a library of numerical abstractions
 Group:			Development/Libraries
 License:		GPLv3+
@@ -17,6 +17,7 @@ BuildRequires:		gmp-devel >= 4.1.3, m4 >= 1.4.8
 Patch0:			%{name}-cstddef.patch
 Patch1:			%{name}-PlLong.patch
 Patch2:			%{name}-gcc5.patch
+Patch3:			%{name}-swiprolog.patch
 
 %description
 The Parma Polyhedra Library (PPL) is a library for the manipulation of
@@ -153,6 +154,7 @@ Install this package if you want to program with the PPL.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 CPPFLAGS="-I%{_includedir}/glpk"
@@ -304,6 +306,9 @@ mv \
 %postun -p /sbin/ldconfig
 
 %changelog
+* Tue Apr 29 2014 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> - 1.1-9
+- Rebuild with newer pl
+
 * Sat May 02 2015 Kalev Lember <kalevlember@gmail.com> - 1.1-8
 - Rebuilt for GCC 5 C++11 ABI change
 
