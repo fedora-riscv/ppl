@@ -1,6 +1,6 @@
 Name:			ppl
 Version:		1.1
-Release:		10%{?dist}
+Release:		11%{?dist}
 Summary:		The Parma Polyhedra Library: a library of numerical abstractions
 Group:			Development/Libraries
 License:		GPLv3+
@@ -122,9 +122,7 @@ Install this package if you want to use the library in YAP Prolog programs.
 %package java
 Summary:	The Java interface of the Parma Polyhedra Library
 BuildRequires:	java-devel >= 1:1.6.0
-BuildRequires:	jpackage-utils
 Requires:	java-headless >= 1:1.6.0
-Requires:	jpackage-utils
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 
 %description java
@@ -134,7 +132,6 @@ Install this package if you want to use the library in Java programs.
 %package java-javadoc
 Summary:	Javadocs for %{name}-java
 Requires:	%{name}-java%{?_isa} = %{version}-%{release}
-Requires:	jpackage-utils
 
 %description java-javadoc
 This package contains the API documentation for Java interface
@@ -306,6 +303,10 @@ mv \
 %postun -p /sbin/ldconfig
 
 %changelog
+* Tue Jun 30 2015 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> - 1.1-11
+- Rebuild with newer pl
+- Remove jpackage-utils dependency
+
 * Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
