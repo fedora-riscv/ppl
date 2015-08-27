@@ -14,6 +14,10 @@ Requires(postun):	/sbin/ldconfig
 Provides:		ppl-pwl = %{version}-%{release}
 Obsoletes:		ppl-pwl <= 0.11.2-11
 BuildRequires:		gmp-devel >= 4.1.3, m4 >= 1.4.8
+BuildRequires:		perl
+BuildRequires:		perl(Getopt::Long)
+BuildRequires:		perl(strict)
+BuildRequires:		perl(warnings)
 Patch0:			%{name}-cstddef.patch
 Patch1:			%{name}-PlLong.patch
 Patch2:			%{name}-gcc5.patch
@@ -305,6 +309,7 @@ mv \
 %changelog
 * Thu Aug 27 2015 Petr Pisar <ppisar@redhat.com> - 1.1-12
 - Rebuild against pl-7.2.3
+- Declare build-time dependencies for running utils
 
 * Tue Jun 30 2015 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> - 1.1-11
 - Rebuild with newer pl
