@@ -1,6 +1,6 @@
 Name:			ppl
 Version:		1.1
-Release:		14%{?dist}
+Release:		15%{?dist}
 Summary:		The Parma Polyhedra Library: a library of numerical abstractions
 Group:			Development/Libraries
 License:		GPLv3+
@@ -309,6 +309,9 @@ mv \
 %postun -p /sbin/ldconfig
 
 %changelog
+* Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Fri Mar 18 2016 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> - 1.1-14
 - Correct FTBFS in rawhide (#1307874)
 
