@@ -1,28 +1,23 @@
 Name:			ppl
-Version:		1.1
-Release:		15%{?dist}
+Version:		1.2
+Release:		1%{?dist}
 Summary:		The Parma Polyhedra Library: a library of numerical abstractions
-Group:			Development/Libraries
 License:		GPLv3+
 URL:			http://www.cs.unipr.it/ppl/
 Source0:		ftp://ftp.cs.unipr.it/pub/ppl/releases/%{version}/%{name}-%{version}.tar.bz2
 Source1:		ppl.hh
 Source2:		ppl_c.h
-Requires(post):		/sbin/ldconfig
-Requires(postun):	/sbin/ldconfig
-# Merged into ppl as of 0.12
-Provides:		ppl-pwl = %{version}-%{release}
-Obsoletes:		ppl-pwl <= 0.11.2-11
-BuildRequires:		gmp-devel >= 4.1.3, m4 >= 1.4.8
+BuildRequires:		gcc-c++
+BuildRequires:		gmp-devel
+BuildRequires:		m4
 BuildRequires:		perl
 BuildRequires:		perl(Getopt::Long)
 BuildRequires:		perl(strict)
 BuildRequires:		perl(warnings)
-Patch0:			%{name}-cstddef.patch
-Patch1:			%{name}-PlLong.patch
-Patch2:			%{name}-gcc5.patch
-Patch3:			%{name}-swiprolog.patch
-Patch4:			%{name}-gcc6.patch
+
+# This can be removed once F-25 reaches EOL
+Obsoletes:		%{name}-yap < 1.2-1%{?dist}
+Provides:		%{name}-yap = %{version}-%{release}
 
 %description
 The Parma Polyhedra Library (PPL) is a library for the manipulation of
@@ -39,10 +34,7 @@ applications using the PPL through its C and C++ interfaces.
 
 %package devel
 Summary:	Development tools for the Parma Polyhedra Library C and C++ interfaces
-Requires:	%{name}%{?_isa} = %{version}-%{release}, gmp-devel%{?_isa} >= 4.1.3
-# Merged into ppl as of 0.12
-Provides:	ppl-pwl-devel = %{version}-%{release}
-Obsoletes:	ppl-pwl-devel <= 0.11.2-11
+Requires:	%{name}%{?_isa} = %{version}-%{release}, gmp-devel%{?_isa}
 
 %description devel
 The header files, Autoconf macro and minimal documentation for
@@ -52,9 +44,6 @@ its C and C++ interfaces.
 %package static
 Summary:	Static archives for the Parma Polyhedra Library C and C++ interfaces
 Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
-# Merged into ppl as of 0.12
-Provides:	ppl-pwl-static = %{version}-%{release}
-Obsoletes:	ppl-pwl-static <= 0.11.2-11
 
 %description static
 The static archives for the Parma Polyhedra Library C and C++ interfaces.
@@ -75,8 +64,8 @@ and the parametric integer programming solver ppl_pips.
 # The `gprolog' package is not available on ppc64:
 # the GNU Prolog interface must thus be disabled for that architecture.
 Summary:	The GNU Prolog interface of the Parma Polyhedra Library
-BuildRequires:	gprolog >= 1.2.19
-Requires:	%{name}%{?_isa} = %{version}-%{release}, gprolog%{?_isa} >= 1.2.19
+BuildRequires:	gprolog >= 1.3.2
+Requires:	%{name}%{?_isa} = %{version}-%{release}, gprolog%{?_isa} >= 1.3.2
 
 %description gprolog
 This package adds GNU Prolog support to the Parma Polyhedra Library (PPL).
@@ -112,18 +101,6 @@ Requires:	%{name}-swiprolog%{?_isa} = %{version}-%{release}
 This package contains the static archive for the SWI-Prolog interface
 of the Parma Polyhedra Library.
 
-%ifnarch sparc64 sparcv9 %{arm} ppc %{power64}
-%package yap
-Summary:	The YAP Prolog interface of the Parma Polyhedra Library
-BuildRequires:	yap-devel >= 5.1.1
-Requires:	%{name}%{?_isa} = %{version}-%{release}, yap%{?_isa} >= 5.1.1
-Obsoletes:	ppl-yap-static
-
-%description yap
-This package adds YAP Prolog support to the Parma Polyhedra Library (PPL).
-Install this package if you want to use the library in YAP Prolog programs.
-%endif
-
 %package java
 Summary:	The Java interface of the Parma Polyhedra Library
 BuildRequires:	java-devel >= 1:1.6.0
@@ -153,11 +130,6 @@ Install this package if you want to program with the PPL.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
 
 %build
 CPPFLAGS="-I%{_includedir}/glpk"
@@ -165,11 +137,8 @@ CPPFLAGS="-I%{_includedir}/glpk"
 %ifarch x86_64 %{ix86} ppc alpha
 CPPFLAGS="$CPPFLAGS -I%{_libdir}/gprolog-`gprolog --version 2>&1 | head -1 | sed -e "s/.* \([^ ]*\)$/\1/g"`/include"
 %endif
-%ifnarch sparc64 sparcv9 %{arm} ppc %{power64}
 CPPFLAGS="$CPPFLAGS -I`swipl -dump-runtime-variables | grep PLBASE= | sed 's/PLBASE="\(.*\)";/\1/'`/include"
-CPPFLAGS="$CPPFLAGS -I%{_includedir}/Yap"
-%endif
-%configure --docdir=%{_datadir}/doc/%{name} --enable-shared --disable-rpath --enable-interfaces="c++ c gnu_prolog swi_prolog yap_prolog java" CPPFLAGS="$CPPFLAGS"
+%configure --docdir=%{_datadir}/doc/%{name} --enable-shared --disable-rpath --enable-interfaces="cxx c gnu_prolog swi_prolog java" CPPFLAGS="$CPPFLAGS"
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 make %{?_smp_mflags}
@@ -272,13 +241,6 @@ mv \
 %files swiprolog-static
 %{_libdir}/%{name}/libppl_swiprolog.a
 
-%ifnarch sparc64 sparcv9 %{arm} ppc %{power64}
-%files yap
-%doc interfaces/Prolog/YAP/README.yap
-%{_datadir}/%{name}/ppl_yap.pl
-%{_libdir}/%{name}/ppl_yap.so
-%endif
-
 %files java
 %doc interfaces/Java/README.java
 %{_libdir}/%{name}/libppl_java.so
@@ -309,6 +271,12 @@ mv \
 %postun -p /sbin/ldconfig
 
 %changelog
+* Fri Mar  3 2017 Jerry James <loganjerry@gmail.com> - 1.2-1
+- Update to latest upstream release (bz 1403093)
+- Drop all patches; all have been upstreamed
+- Drop ancient obsoletes
+- Drop the yap interface since yap has been retired
+
 * Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
