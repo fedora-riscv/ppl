@@ -1,6 +1,6 @@
 Name:			ppl
 Version:		1.2
-Release:		1%{?dist}
+Release:		2%{?dist}
 Summary:		The Parma Polyhedra Library: a library of numerical abstractions
 License:		GPLv3+
 URL:			http://www.cs.unipr.it/ppl/
@@ -271,6 +271,9 @@ mv \
 %postun -p /sbin/ldconfig
 
 %changelog
+* Tue Mar 07 2017 Petr Pisar <ppisar@redhat.com> - 1.2-2
+- Rebuild against pl-7.4.1
+
 * Fri Mar  3 2017 Jerry James <loganjerry@gmail.com> - 1.2-1
 - Update to latest upstream release (bz 1403093)
 - Drop all patches; all have been upstreamed
