@@ -10,7 +10,7 @@ Source2:		ppl_c.h
 BuildRequires:		gcc-c++
 BuildRequires:		gmp-devel
 BuildRequires:		m4
-BuildRequires:		perl
+BuildRequires:		perl-interpreter
 BuildRequires:		perl(Getopt::Long)
 BuildRequires:		perl(strict)
 BuildRequires:		perl(warnings)
