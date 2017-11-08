@@ -1,6 +1,6 @@
 Name:			ppl
 Version:		1.2
-Release:		4%{?dist}
+Release:		5%{?dist}
 Summary:		The Parma Polyhedra Library: a library of numerical abstractions
 License:		GPLv3+
 URL:			http://www.cs.unipr.it/ppl/
@@ -271,6 +271,9 @@ mv \
 %postun -p /sbin/ldconfig
 
 %changelog
+* Wed Nov 08 2017 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> - 1.2-5
+- Rebuild against pl-7.6.0
+
 * Thu Aug 03 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
 
