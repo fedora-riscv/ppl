@@ -1,10 +1,10 @@
 Name:			ppl
 Version:		1.2
-Release:		6%{?dist}
+Release:		7%{?dist}
 Summary:		The Parma Polyhedra Library: a library of numerical abstractions
 License:		GPLv3+
-URL:			http://www.cs.unipr.it/ppl/
-Source0:		ftp://ftp.cs.unipr.it/pub/ppl/releases/%{version}/%{name}-%{version}.tar.bz2
+URL:			http://www.bugseng.com/ppl
+Source0:		http://www.bugseng.com/products/ppl/download/ftp/releases/%{version}/%{name}-%{version}.tar.bz2
 Source1:		ppl.hh
 Source2:		ppl_c.h
 BuildRequires:		gcc-c++
@@ -14,10 +14,6 @@ BuildRequires:		perl-interpreter
 BuildRequires:		perl(Getopt::Long)
 BuildRequires:		perl(strict)
 BuildRequires:		perl(warnings)
-
-# This can be removed once F-25 reaches EOL
-Obsoletes:		%{name}-yap < 1.2-1%{?dist}
-Provides:		%{name}-yap = %{version}-%{release}
 
 %description
 The Parma Polyhedra Library (PPL) is a library for the manipulation of
@@ -234,7 +230,7 @@ mv \
 %files swiprolog
 %doc interfaces/Prolog/SWI/README.swiprolog
 # No longer installed on shared builds
-# %{_bindir}/ppl_pl
+# %%{_bindir}/ppl_pl
 %{_libdir}/%{name}/libppl_swiprolog.so
 %{_datadir}/%{name}/ppl_swiprolog.pl
 
@@ -267,10 +263,14 @@ mv \
 %doc %{_datadir}/doc/%{name}/ppl-user-java-interface-%{version}.ps.gz
 %doc %{_datadir}/doc/%{name}/ppl-user-prolog-interface-%{version}.ps.gz
 
-%post -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+%ldconfig_scriptlets
 
 %changelog
+* Sat Jun  2 2018 Jerry James <loganjerry@gmail.com> - 1.2-7
+- Rebuild against glpk 4.65
+- Update URLs
+- Use ldconfig macro
+
 * Fri Feb 09 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
