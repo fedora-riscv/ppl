@@ -1,6 +1,6 @@
 Name:			ppl
 Version:		1.2
-Release:		9%{?dist}
+Release:		10%{?dist}
 Summary:		The Parma Polyhedra Library: a library of numerical abstractions
 License:		GPLv3+
 URL:			http://www.bugseng.com/ppl
@@ -263,9 +263,10 @@ mv \
 %doc %{_datadir}/doc/%{name}/ppl-user-java-interface-%{version}.ps.gz
 %doc %{_datadir}/doc/%{name}/ppl-user-prolog-interface-%{version}.ps.gz
 
-%ldconfig_scriptlets
-
 %changelog
+* Mon Mar 25 2019 Jerry James <loganjerry@gmail.com> - 1.2-10
+- Rebuild for pl 8.0.2
+
 * Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
