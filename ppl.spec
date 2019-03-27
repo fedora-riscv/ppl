@@ -14,6 +14,7 @@ BuildRequires:		perl-interpreter
 BuildRequires:		perl(Getopt::Long)
 BuildRequires:		perl(strict)
 BuildRequires:		perl(warnings)
+BuildRequires:		sharutils
 
 %description
 The Parma Polyhedra Library (PPL) is a library for the manipulation of
@@ -127,13 +128,18 @@ Install this package if you want to program with the PPL.
 %prep
 %setup -q
 
+# Adapt to SWI Prolog 8.x
+sed -i 's/-dump-runtime-variables/-&/g' configure
+
+# Fix detection of C++11 features
+sed -i 's,== 201103L,>= 201103L,g' configure
+
 %build
-CPPFLAGS="-I%{_includedir}/glpk"
+CPPFLAGS="-I`swipl --dump-runtime-variables | grep PLBASE= | sed 's/PLBASE="\(.*\)";/\1/'`/include"
 # This is the explicit list of arches gprolog supports
 %ifarch x86_64 %{ix86} ppc alpha
 CPPFLAGS="$CPPFLAGS -I%{_libdir}/gprolog-`gprolog --version 2>&1 | head -1 | sed -e "s/.* \([^ ]*\)$/\1/g"`/include"
 %endif
-CPPFLAGS="$CPPFLAGS -I`swipl -dump-runtime-variables | grep PLBASE= | sed 's/PLBASE="\(.*\)";/\1/'`/include"
 %configure --docdir=%{_datadir}/doc/%{name} --enable-shared --disable-rpath --enable-interfaces="cxx c gnu_prolog swi_prolog java" CPPFLAGS="$CPPFLAGS"
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
