@@ -1,6 +1,6 @@
 Name:			ppl
 Version:		1.2
-Release:		12%{?dist}
+Release:		13%{?dist}
 Summary:		The Parma Polyhedra Library: a library of numerical abstractions
 License:		GPLv3+
 URL:			http://www.bugseng.com/ppl
@@ -85,18 +85,13 @@ Summary:	The SWI-Prolog interface of the Parma Polyhedra Library
 BuildRequires:	pl >= 5.10.2-3, pl-devel >= 5.10.2-3
 Requires:	%{name}%{?_isa} = %{version}-%{release}, pl%{?_isa} >= 5.10.2-3
 
+# This can be removed when F35 reaches EOL
+Obsoletes:      swiprolog-static < 1.2-13
+Provides:       swiprolog-static = %{version}-%{release}
+
 %description swiprolog
 This package adds SWI-Prolog support to the Parma Polyhedra Library.
 Install this package if you want to use the library in SWI-Prolog programs.
-
-%package swiprolog-static
-Summary:	The static archive for the SWI-Prolog interface of the Parma Polyhedra Library
-BuildRequires:	pl >= 5.10.2-3, pl-devel >= 5.10.2-3, pl-static >= 5.10.2-3
-Requires:	%{name}-swiprolog%{?_isa} = %{version}-%{release}
-
-%description swiprolog-static
-This package contains the static archive for the SWI-Prolog interface
-of the Parma Polyhedra Library.
 
 %package java
 Summary:	The Java interface of the Parma Polyhedra Library
@@ -126,7 +121,7 @@ using the Parma Polyhedra Library (PPL).
 Install this package if you want to program with the PPL.
 
 %prep
-%setup -q
+%autosetup
 
 # Adapt to SWI Prolog 8.x
 sed -i 's/-dump-runtime-variables/-&/g' configure
@@ -143,11 +138,14 @@ CPPFLAGS="$CPPFLAGS -I%{_libdir}/gprolog-`gprolog --version 2>&1 | head -1 | sed
 %configure --docdir=%{_datadir}/doc/%{name} --enable-shared --disable-rpath --enable-interfaces="cxx c gnu_prolog swi_prolog java" CPPFLAGS="$CPPFLAGS"
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
-make %{?_smp_mflags}
+%make_build
 
 %install
 make DESTDIR=%{buildroot} INSTALL="%{__install} -p" install
 rm -f %{buildroot}%{_libdir}/*.la %{buildroot}%{_libdir}/%{name}/*.la
+
+# Do not install the swiprolog-static file, since pl-static no longer exists
+rm -f %{buildroot}%{_libdir}/%{name}/libppl_swiprolog.a
 
 # In order to avoid multiarch conflicts when installed for multiple
 # architectures (e.g., i386 and x86_64), we rename the header files
@@ -240,9 +238,6 @@ mv \
 %{_libdir}/%{name}/libppl_swiprolog.so
 %{_datadir}/%{name}/ppl_swiprolog.pl
 
-%files swiprolog-static
-%{_libdir}/%{name}/libppl_swiprolog.a
-
 %files java
 %doc interfaces/Java/README.java
 %{_libdir}/%{name}/libppl_java.so
@@ -270,6 +265,9 @@ mv \
 %doc %{_datadir}/doc/%{name}/ppl-user-prolog-interface-%{version}.ps.gz
 
 %changelog
+* Thu Apr 16 2020 Jerry James <loganjerry@gmail.com> - 1.2-13
+- Remove the swiprolog-static subpackage since pl-static no longer exists
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
