@@ -1,6 +1,6 @@
 Name:			ppl
 Version:		1.2
-Release:		13%{?dist}
+Release:		14%{?dist}
 Summary:		The Parma Polyhedra Library: a library of numerical abstractions
 License:		GPLv3+
 URL:			http://www.bugseng.com/ppl
@@ -95,8 +95,9 @@ Install this package if you want to use the library in SWI-Prolog programs.
 
 %package java
 Summary:	The Java interface of the Parma Polyhedra Library
-BuildRequires:	java-devel >= 1:1.6.0
-Requires:	java-headless >= 1:1.6.0
+BuildRequires:	java-devel
+BuildRequires:	javapackages-tools
+Requires:	java-headless
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 
 %description java
@@ -135,6 +136,14 @@ CPPFLAGS="-I`swipl --dump-runtime-variables | grep PLBASE= | sed 's/PLBASE="\(.*
 %ifarch x86_64 %{ix86} ppc alpha
 CPPFLAGS="$CPPFLAGS -I%{_libdir}/gprolog-`gprolog --version 2>&1 | head -1 | sed -e "s/.* \([^ ]*\)$/\1/g"`/include"
 %endif
+# The javah tool was removed in JDK 10
+if [ ! -e %{_bindir}/javah ]; then
+  export JAVAH="%{_bindir}/javac"
+  sed -e 's/\$(JAVAC)/& -h ./' \
+      -e '/^java_cxx_headers\.stamp$/d' \
+      -i interfaces/Java/parma_polyhedra_library/Makefile.in
+fi
+CPPFLAGS="$CPPFLAGS -I%{_jvmdir}/java/include -I%{_jvmdir}/java/include/linux"
 %configure --docdir=%{_datadir}/doc/%{name} --enable-shared --disable-rpath --enable-interfaces="cxx c gnu_prolog swi_prolog java" CPPFLAGS="$CPPFLAGS"
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
@@ -265,6 +274,9 @@ mv \
 %doc %{_datadir}/doc/%{name}/ppl-user-prolog-interface-%{version}.ps.gz
 
 %changelog
+* Mon May  4 2020 Jerry James <loganjerry@gmail.com> - 1.2-14
+- Use "javac -h" instead of javah with JDK 10 and later
+
 * Thu Apr 16 2020 Jerry James <loganjerry@gmail.com> - 1.2-13
 - Remove the swiprolog-static subpackage since pl-static no longer exists
 
