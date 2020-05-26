@@ -1,13 +1,16 @@
 Name:			ppl
 Version:		1.2
-Release:		14%{?dist}
+Release:		15%{?dist}
 Summary:		The Parma Polyhedra Library: a library of numerical abstractions
 License:		GPLv3+
 URL:			http://www.bugseng.com/ppl
 Source0:		http://www.bugseng.com/products/ppl/download/ftp/releases/%{version}/%{name}-%{version}.tar.bz2
 Source1:		ppl.hh
 Source2:		ppl_c.h
+Patch0: configure.patch
 BuildRequires:		gcc-c++
+BuildRequires:		automake
+BuildRequires:		libtool
 BuildRequires:		gmp-devel
 BuildRequires:		m4
 BuildRequires:		perl-interpreter
@@ -122,7 +125,7 @@ using the Parma Polyhedra Library (PPL).
 Install this package if you want to program with the PPL.
 
 %prep
-%autosetup
+%autosetup -p1
 
 # Adapt to SWI Prolog 8.x
 sed -i 's/-dump-runtime-variables/-&/g' configure
@@ -131,6 +134,7 @@ sed -i 's/-dump-runtime-variables/-&/g' configure
 sed -i 's,== 201103L,>= 201103L,g' configure
 
 %build
+autoreconf -fiv
 CPPFLAGS="-I`swipl --dump-runtime-variables | grep PLBASE= | sed 's/PLBASE="\(.*\)";/\1/'`/include"
 # This is the explicit list of arches gprolog supports
 %ifarch x86_64 %{ix86} ppc alpha
@@ -274,6 +278,10 @@ mv \
 %doc %{_datadir}/doc/%{name}/ppl-user-prolog-interface-%{version}.ps.gz
 
 %changelog
+* Tue May 26 2020 Jeff Law <law@redhat.com> - 1.2-15
+- Fix configure test compromised by LTO.  autoreconf after
+  before configuring.  Depend on automake and libtool.
+
 * Mon May  4 2020 Jerry James <loganjerry@gmail.com> - 1.2-14
 - Use "javac -h" instead of javah with JDK 10 and later
 
