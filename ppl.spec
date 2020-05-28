@@ -1,13 +1,17 @@
 Name:			ppl
 Version:		1.2
-Release:		15%{?dist}
+Release:		16%{?dist}
 Summary:		The Parma Polyhedra Library: a library of numerical abstractions
 License:		GPLv3+
 URL:			http://www.bugseng.com/ppl
 Source0:		http://www.bugseng.com/products/ppl/download/ftp/releases/%{version}/%{name}-%{version}.tar.bz2
 Source1:		ppl.hh
 Source2:		ppl_c.h
-Patch0: configure.patch
+# Fix configure test compromised by LTO
+Patch0:			configure.patch
+# Adapt to swipl 8.2.x
+Patch1:			%{name}-pl82.patch
+
 BuildRequires:		gcc-c++
 BuildRequires:		automake
 BuildRequires:		libtool
@@ -127,14 +131,13 @@ Install this package if you want to program with the PPL.
 %prep
 %autosetup -p1
 
-# Adapt to SWI Prolog 8.x
-sed -i 's/-dump-runtime-variables/-&/g' configure
-
 # Fix detection of C++11 features
-sed -i 's,== 201103L,>= 201103L,g' configure
+sed -i 's,== 201103L,>= 201103L,g' m4/ac_check_cxx11.m4
+
+# Regenerate configure
+autoreconf -fiv
 
 %build
-autoreconf -fiv
 CPPFLAGS="-I`swipl --dump-runtime-variables | grep PLBASE= | sed 's/PLBASE="\(.*\)";/\1/'`/include"
 # This is the explicit list of arches gprolog supports
 %ifarch x86_64 %{ix86} ppc alpha
@@ -278,6 +281,10 @@ mv \
 %doc %{_datadir}/doc/%{name}/ppl-user-prolog-interface-%{version}.ps.gz
 
 %changelog
+* Thu May 28 2020 Jerry James <loganjerry@gmail.com> - 1.2-16
+- Rebuild for pl 8.2.0
+- Add -pl82 patch
+
 * Tue May 26 2020 Jeff Law <law@redhat.com> - 1.2-15
 - Fix configure test compromised by LTO.  autoreconf after
   before configuring.  Depend on automake and libtool.
