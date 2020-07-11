@@ -1,6 +1,6 @@
 Name:			ppl
 Version:		1.2
-Release:		16%{?dist}
+Release:		17%{?dist}
 Summary:		The Parma Polyhedra Library: a library of numerical abstractions
 License:		GPLv3+
 URL:			http://www.bugseng.com/ppl
@@ -281,6 +281,9 @@ mv \
 %doc %{_datadir}/doc/%{name}/ppl-user-prolog-interface-%{version}.ps.gz
 
 %changelog
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.2-17
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu May 28 2020 Jerry James <loganjerry@gmail.com> - 1.2-16
 - Rebuild for pl 8.2.0
 - Add -pl82 patch
