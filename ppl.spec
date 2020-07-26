@@ -146,7 +146,7 @@ CPPFLAGS="$CPPFLAGS -I%{_libdir}/gprolog-`gprolog --version 2>&1 | head -1 | sed
 # The javah tool was removed in JDK 10
 if [ ! -e %{_bindir}/javah ]; then
   export JAVAH="%{_bindir}/javac"
-  sed -e 's/\$(JAVAC)/& -h ./' \
+  sed -e 's/\$(JAVAC)/& -h . -source 1.8 -target 1.8/' \
       -e '/^java_cxx_headers\.stamp$/d' \
       -i interfaces/Java/parma_polyhedra_library/Makefile.in
 fi
@@ -157,7 +157,7 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 %make_build
 
 %install
-make DESTDIR=%{buildroot} INSTALL="%{__install} -p" install
+%make_install INSTALL="%{__install} -p"
 rm -f %{buildroot}%{_libdir}/*.la %{buildroot}%{_libdir}/%{name}/*.la
 
 # Do not install the swiprolog-static file, since pl-static no longer exists
