@@ -17,6 +17,7 @@ BuildRequires:		automake
 BuildRequires:		libtool
 BuildRequires:		gmp-devel
 BuildRequires:		m4
+BuildRequires:		make
 BuildRequires:		perl-interpreter
 BuildRequires:		perl(Getopt::Long)
 BuildRequires:		perl(strict)
