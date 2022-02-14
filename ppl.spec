@@ -64,7 +64,7 @@ the program ppl_lcdd for vertex/facet enumeration of convex polyhedra,
 and the parametric integer programming solver ppl_pips.
 
 # This is the explicit list of arches gprolog supports
-%ifarch x86_64 %{ix86} ppc alpha
+%ifarch x86_64 %{ix86} ppc alpha aarch64
 %package gprolog
 # The `gprolog' package is not available on ppc64:
 # the GNU Prolog interface must thus be disabled for that architecture.
@@ -78,7 +78,7 @@ Install this package if you want to use the library in GNU Prolog programs.
 %endif
 
 # This is the explicit list of arches gprolog supports
-%ifarch x86_64 %{ix86} ppc alpha
+%ifarch x86_64 %{ix86} ppc alpha aarch64
 %package gprolog-static
 Summary:	The static archive for the GNU Prolog interface of the Parma Polyhedra Library
 Requires:	%{name}-gprolog%{?_isa} = %{version}-%{release}
