@@ -101,6 +101,7 @@ Provides:       swiprolog-static = %{version}-%{release}
 This package adds SWI-Prolog support to the Parma Polyhedra Library.
 Install this package if you want to use the library in SWI-Prolog programs.
 
+%ifarch %{java_arches}
 %package java
 Summary:	The Java interface of the Parma Polyhedra Library
 BuildRequires:	java-devel
@@ -119,6 +120,7 @@ Requires:	%{name}-java%{?_isa} = %{version}-%{release}
 %description java-javadoc
 This package contains the API documentation for Java interface
 of the Parma Polyhedra Library.
+%endif
 
 %package docs
 Summary:	Documentation for the Parma Polyhedra Library
@@ -141,9 +143,10 @@ autoreconf -fiv
 %build
 CPPFLAGS="-I`swipl --dump-runtime-variables | grep PLBASE= | sed 's/PLBASE="\(.*\)";/\1/'`/include"
 # This is the explicit list of arches gprolog supports
-%ifarch x86_64 %{ix86} ppc alpha
+%ifarch x86_64 %{ix86} ppc alpha aarch64
 CPPFLAGS="$CPPFLAGS -I%{_libdir}/gprolog-`gprolog --version 2>&1 | head -1 | sed -e "s/.* \([^ ]*\)$/\1/g"`/include"
 %endif
+%ifarch %{java_arches}
 # The javah tool was removed in JDK 10
 if [ ! -e %{_bindir}/javah ]; then
   export JAVAH="%{_bindir}/javac"
@@ -152,7 +155,14 @@ if [ ! -e %{_bindir}/javah ]; then
       -i interfaces/Java/parma_polyhedra_library/Makefile.in
 fi
 CPPFLAGS="$CPPFLAGS -I%{_jvmdir}/java/include -I%{_jvmdir}/java/include/linux"
-%configure --docdir=%{_datadir}/doc/%{name} --enable-shared --disable-rpath --enable-interfaces="cxx c gnu_prolog swi_prolog java" CPPFLAGS="$CPPFLAGS"
+%endif
+%configure --docdir=%{_datadir}/doc/%{name} --enable-shared --disable-rpath \
+%ifarch %{java_arches}
+  --enable-interfaces="cxx c gnu_prolog swi_prolog java" \
+%else
+  --enable-interfaces="cxx c gnu_prolog swi_prolog" \
+%endif
+  CPPFLAGS="$CPPFLAGS"
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 %make_build
@@ -189,11 +199,13 @@ install -m644 %{SOURCE1} %{buildroot}/%{_includedir}/ppl.hh
 mv %{buildroot}/%{_includedir}/ppl_c.h %{buildroot}/%{_includedir}/ppl_c-${normalized_arch}.h
 install -m644 %{SOURCE2} %{buildroot}/%{_includedir}/ppl_c.h
 
+%ifarch %{java_arches}
 # Install the Javadocs for ppl-java.
 mkdir -p %{buildroot}%{_javadocdir}
 mv \
 %{buildroot}/%{_datadir}/doc/%{name}/ppl-user-java-interface-%{version}-html \
 %{buildroot}%{_javadocdir}/%{name}-java
+%endif
 
 %files
 %doc %{_datadir}/doc/%{name}/BUGS
@@ -234,16 +246,14 @@ mv \
 %{_mandir}/man1/ppl_lpsol.1.gz
 %{_mandir}/man1/ppl_pips.1.gz
 
-%ifarch x86_64 %{ix86} ppc alpha
+# This is the explicit list of arches gprolog supports
+%ifarch x86_64 %{ix86} ppc alpha aarch64
 %files gprolog
 %doc interfaces/Prolog/GNU/README.gprolog
 %{_bindir}/ppl_gprolog
 %{_datadir}/ppl/ppl_gprolog.pl
 %{_libdir}/%{name}/libppl_gprolog.so
-%endif
 
-# This is the explicit list of arches gprolog supports
-%ifarch x86_64 %{ix86} ppc alpha
 %files gprolog-static
 %{_libdir}/%{name}/libppl_gprolog.a
 %endif
@@ -255,6 +265,7 @@ mv \
 %{_libdir}/%{name}/libppl_swiprolog.so
 %{_datadir}/%{name}/ppl_swiprolog.pl
 
+%ifarch %{java_arches}
 %files java
 %doc interfaces/Java/README.java
 %{_libdir}/%{name}/libppl_java.so
@@ -262,6 +273,7 @@ mv \
 
 %files java-javadoc
 %{_javadocdir}/%{name}-java
+%endif
 
 %files docs
 %doc %{_datadir}/doc/%{name}/ChangeLog*
@@ -274,14 +286,20 @@ mv \
 %doc %{_datadir}/doc/%{name}/ppl-user-prolog-interface-%{version}-html/
 %doc %{_datadir}/doc/%{name}/ppl-user-%{version}.pdf
 %doc %{_datadir}/doc/%{name}/ppl-user-c-interface-%{version}.pdf
-%doc %{_datadir}/doc/%{name}/ppl-user-java-interface-%{version}.pdf
 %doc %{_datadir}/doc/%{name}/ppl-user-prolog-interface-%{version}.pdf
 %doc %{_datadir}/doc/%{name}/ppl-user-%{version}.ps.gz
 %doc %{_datadir}/doc/%{name}/ppl-user-c-interface-%{version}.ps.gz
-%doc %{_datadir}/doc/%{name}/ppl-user-java-interface-%{version}.ps.gz
 %doc %{_datadir}/doc/%{name}/ppl-user-prolog-interface-%{version}.ps.gz
+%ifarch %{java_arches}
+%doc %{_datadir}/doc/%{name}/ppl-user-java-interface-%{version}.pdf
+%doc %{_datadir}/doc/%{name}/ppl-user-java-interface-%{version}.ps.gz
+%endif
 
 %changelog
+* Mon Jul 25 2022 Jerry James <loganjerry@gmail.com> - 1.2-24
+- Do not build the Java interface on i686 (rhbz#2104091)
+- Build the gprolog interface on aarch64
+
 * Fri Jul 22 2022 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild
 
