@@ -51,6 +51,10 @@ site: http://www.cs.unipr.it/ppl/ . */
 #include "ppl-sparc64.hh"
 #elif defined(__sparc__)
 #include "ppl-sparc.hh"
+#elif defined(__riscv) && (__riscv_xlen == 64)
+#include "ppl-riscv64.hh"
+#elif defined(__riscv) && (__riscv_xlen == 32)
+#include "ppl-riscv32.hh"
 #else
 #error "This architecture is not supported by the currently installed ppl-devel packages."
 #endif
